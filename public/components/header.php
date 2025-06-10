@@ -2,6 +2,8 @@
 
 date_default_timezone_set('Africa/Lagos');
 
+include_once './includes/db.php';
+include_once './includes/session.php';
 include_once './includes/functions.php';
 
 ?>
@@ -12,6 +14,7 @@ include_once './includes/functions.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="src/styles.css?v=<?php echo time(); ?>">
     <link rel="shortcut icon" href="assets/ic.png" type="image/x-icon">
     <title>G. Ade Kelani Chambers</title>

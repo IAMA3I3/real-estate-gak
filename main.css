@@ -3,36 +3,98 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-      @apply bg-gray-200 text-gray-800 cursor-default
-    }
-    body {
-      @apply relative min-h-screen min-w-full dark:bg-gray-600 dark:text-white
-    }
-    .scrollbar::-webkit-scrollbar,
-    html::-webkit-scrollbar {
-      @apply w-2 bg-gray-400
-    }
-    .scrollbar::-webkit-scrollbar {
-      @apply rounded-full
-    }
-    .scrollbar::-webkit-scrollbar-thumb,
-    html::-webkit-scrollbar-thumb {
-      @apply rounded-full bg-gray-800
-    }
-    .card {
-      @apply shadow-lg p-5 md:p-8 rounded-md border border-slate-300 dark:border-slate-500
-    }
-    input {
-      @apply py-1 px-3 bg-transparent rounded-md border-2 border-gray-400 outline-none focus:border-gray-600
-    }
-    button {
-      @apply  px-4 py-2 uppercase tracking-wide rounded-md active:scale-95
-    }
-    #nav {
-      @apply max-h-0 py-0 md:max-h-screen duration-150
-    }
-    #nav.open {
-      @apply max-h-screen py-2 duration-150
-    }
+  html {
+    @apply text-gray-700 cursor-default
+  }
+
+  body {
+    @apply relative min-h-screen min-w-full overflow-x-hidden
+  }
+
+  .scrollbar::-webkit-scrollbar,
+  html::-webkit-scrollbar {
+    @apply w-2 bg-gray-400
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    @apply rounded-full
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb,
+  html::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-800
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    @apply hidden
+  }
+
+  .nav-overlay {
+    @apply w-0
+  }
+
+  .nav-overlay.open {
+    @apply w-full
+  }
+
+  .side-nav {
+    @apply right-[-250px]
+  }
+
+  .side-nav.open {
+    @apply right-0
+  }
+
+  .search-container {
+    @apply invisible opacity-0
+  }
+
+  .search-container.open {
+    @apply visible opacity-100
+  }
+
+  .search-overlay {
+    @apply scale-50
+  }
+
+  .search-overlay.open {
+    @apply scale-100
+  }
+
+  .sticky-navbar {
+    @apply top-[-60px] invisible opacity-0
+  }
+
+  .sticky-navbar.open {
+    @apply top-0 visible opacity-100
+  }
+
+  .scroll-up {
+    @apply -bottom-4 invisible opacity-0
+  }
+
+  .scroll-up.open {
+    @apply bottom-6 visible opacity-100
+  }
+
+  #property-pic-thumb-a.active,
+  #property-pic-thumb.active {
+    @apply border-2 border-app-primary
+  }
+
+  .pop {
+    @apply invisible opacity-0
+  }
+
+  .pop .main {
+    @apply scale-50
+  }
+
+  .pop.show {
+    @apply visible opacity-100
+  }
+
+  .pop.show .main {
+    @apply scale-100
+  }
 }

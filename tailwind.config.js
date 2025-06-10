@@ -30,8 +30,7 @@ module.exports = {
     },
   },
   plugins: [
-    require('tailwindcss-animated'),
-    require("tailwind-gradient-mask-image")
+    require('tailwindcss-animated')
   ],
 }
 

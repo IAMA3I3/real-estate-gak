@@ -1,7 +1,7 @@
 <?php
 
 $host = 'localhost';
-$dbname = '';
+$dbname = 'real_estate_gak';
 $dbusername = 'root';
 $dbpassword = '';
 

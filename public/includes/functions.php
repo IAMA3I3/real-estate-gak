@@ -1,5 +1,286 @@
 <?php
 
+// change password
+function changePassword($pdo, $user_id, $password)
+{
+    $query = "UPDATE users SET password = :password WHERE user_id = :user_id;";
+    $options = [
+        "cost" => 12
+    ];
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT, $options);
+
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":user_id", $user_id);
+    $stmt->bindParam(":password", $hashedPassword);
+    $stmt->execute();
+}
+
+// change password errors
+function changePasswordErrors($password, $confirm_password)
+{
+    $errors = [];
+
+    if (empty($password)) {
+        $errors['password'] = 'Password is required';
+    }
+    if (empty($confirm_password)) {
+        $errors['confirm_password'] = 'Confirm password is required';
+    }
+    if (!empty($password) && strlen($password) < 6) {
+        $errors['password'] = 'Password must contain 6 or more characters';
+    }
+    if ($password !== $confirm_password) {
+        $errors['confirm_password'] = 'Not a match with password';
+    }
+
+    return $errors;
+}
+
+// update user type
+function updateUserType($pdo, $user_id, $user_type)
+{
+    $query = "UPDATE users SET user_type = :user_type WHERE user_id = :user_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':user_type', $user_type);
+    $stmt->execute();
+}
+
+// delete item
+function deleteItem($pdo, $db_table, $id_column, $item_id)
+{
+    $query = "DELETE FROM $db_table WHERE $id_column = :item_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':item_id', $item_id);
+    $stmt->execute();
+}
+
+// taken by other
+function takenByOther($pdo, $db_table, $unique_column, $value, $id_column, $item_id)
+{
+    $query = "SELECT * FROM $db_table WHERE $unique_column = :value AND $id_column != :item_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':value', $value);
+    $stmt->bindParam(':item_id', $item_id);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// fetch items by there id
+function fetchById($pdo, $item_id, $db_table, $id_column)
+{
+    $query = "SELECT * FROM $db_table WHERE $id_column = :item_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':item_id', $item_id);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row;
+}
+
+// check uniqueness
+function isUnique($pdo, $db_table, $column, $value)
+{
+    $query = "SELECT * FROM $db_table WHERE $column = :value";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':value', $value);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+// fetch all items
+function fetchAll($pdo, $db_table)
+{
+    $query = "SELECT * FROM $db_table ORDER BY created_at DESC;";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
+}
+
+// fetch user by email
+function fetchUserByEmail($pdo, $email)
+{
+    $query = 'SELECT * FROM users WHERE email = :email;';
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam('email', $email);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row;
+}
+
+// login error
+function loginError($email, $password, $row)
+{
+    $errors = [];
+
+    if (empty($email)) {
+        $errors['email'] = 'Email is required';
+    }
+    if (empty($password)) {
+        $errors['password'] = 'Password is required';
+    }
+    if (!empty($email) && wrongEmail($row)) {
+        $errors['default'] = 'Invalid Credential';
+    }
+    if (!empty($email) && !wrongEmail($row) && !empty($password) && wrongPassword($password, $row['password'])) {
+        $errors['default'] = 'Invalid Credential';
+    }
+
+    return $errors;
+}
+
+// add user
+function addUser($pdo, $user_id, $firstName, $lastName, $email, $password)
+{
+    $query = "INSERT INTO users (user_id, first_name, last_name, email, password) VALUES (:user_id, :first_name, :last_name, :email, :password);";
+
+    $options = [
+        "cost" => 12
+    ];
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT, $options);
+
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":user_id", $user_id);
+    $stmt->bindParam(":first_name", $firstName);
+    $stmt->bindParam(":last_name", $lastName);
+    $stmt->bindParam(":email", $email);
+    $stmt->bindParam(":password", $hashedPassword);
+    $stmt->execute();
+}
+
+// validate user
+function validateUser($pdo, $firstName, $lastName, $email, $password, $confirmPassword)
+{
+    $errors = [];
+
+    // Trim the input to remove spaces and other invisible characters
+    $firstName = trim($firstName);
+
+    // Remove any non-printable or invisible characters
+    $firstName = preg_replace('/[\x00-\x1F\x7F]/u', '', $firstName);
+
+    // Trim the input to remove spaces and other invisible characters
+    $lastName = trim($lastName);
+
+    // Remove any non-printable or invisible characters
+    $lastName = preg_replace('/[\x00-\x1F\x7F]/u', '', $lastName);
+
+    if (empty($firstName)) {
+        $errors['first_name'] = 'Please enter first name';
+    }
+    if (empty($lastName)) {
+        $errors['last_name'] = 'Please enter last name';
+    }
+    if (empty($email)) {
+        $errors['email'] = 'Please enter email';
+    }
+    if (empty($password)) {
+        $errors['password'] = 'Please enter password';
+    }
+    if (empty($confirmPassword)) {
+        $errors['confirm_password'] = 'Please confirm password';
+    }
+    if ($password !== $confirmPassword) {
+        $errors['confirm_password'] = 'Not a match with password';
+    }
+    if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = 'Invalid email';
+    }
+    if (!empty($firstName) && !preg_match('/^[a-zA-Z]+$/', $firstName)) {
+        $errors['first_name'] = 'Must contain only letters';
+    }
+    if (!empty($lastName) && !preg_match('/^[a-zA-Z]+$/', $lastName)) {
+        $errors['last_name'] = 'Must contain only letters';
+    }
+    if (!empty($password) && strlen($password) < 6) {
+        $errors['password'] = 'Password must contain 6 or more characters';
+    }
+    if (emailTaken($pdo, $email)) {
+        $errors['email'] = 'Email is already registered with us';
+    }
+
+    return $errors;
+}
+
+// generate unique id
+function generateId($pdo, $db_table, $for)
+{
+    // Define the character set including special characters
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $charactersLength = strlen($characters);
+
+    do {
+        // Generate a random length between the specified range
+        $length = random_int(10, 15);
+
+        // Generate the unique ID
+        $unique_id = '';
+        for ($i = 0; $i < $length; $i++) {
+            $index = random_int(0, $charactersLength - 1);
+            $unique_id .= $characters[$index];
+        }
+
+        // Check if the ID is unique in the database
+        $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM $db_table WHERE $for = :unique_id;");
+        $stmt->bindParam(':unique_id', $unique_id);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    } while ($row['count'] > 0); // Repeat if ID is not unique
+
+    return $unique_id;
+}
+
+// email taken
+function emailTaken($pdo, $email)
+{
+    $query = "SELECT * FROM users WHERE email = :email;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// wrong email
+function wrongEmail($result)
+{
+    if (!$result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// wrong password
+function wrongPassword($password, $hashedPassword)
+{
+    if (!password_verify($password, $hashedPassword)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function isPageActive($page)
 {
     $currentPage = basename($_SERVER['PHP_SELF']);

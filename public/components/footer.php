@@ -22,11 +22,27 @@
 </div>
 <!-- end display video -->
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://kit.fontawesome.com/ecdfbd10f7.js" crossorigin="anonymous"></script>
 <script src="./src/slider.js"></script>
 <script src="./src/popImg.js"></script>
 <script src="./src/script.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize all tables with .datatable class
+        $('.datatable').DataTable();
+
+        // Make <tr> clickable if it has a data-href attribute
+        $('.datatable tbody').on('click', 'tr', function() {
+            const href = $(this).data('href');
+            if (href) {
+                window.location.href = href;
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

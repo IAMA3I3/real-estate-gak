@@ -139,3 +139,65 @@ if (dropMenu) {
         })
     })
 }
+
+
+
+// app container with side bar
+const toggleDashboardNav = document.querySelectorAll('#toggle-dashboard-nav')
+const dashboardSideNav = document.querySelector('.dashboard-nav-container')
+const dashboardMain = document.querySelector('.dashboard-main')
+const dashboardNavOverlay = document.querySelector('.dashboard-nav-overlay')
+
+if (toggleDashboardNav && dashboardSideNav) {
+    toggleDashboardNav.forEach(btn => {
+        btn.addEventListener('click', () => {
+            dashboardSideNav.classList.toggle('slide')
+            dashboardMain.classList.toggle('expand')
+            dashboardNavOverlay.classList.toggle('show')
+        })
+    })
+}
+
+// side bar drop downs
+const dashboardNavDropdownToggle = document.querySelectorAll('.dashboard-nav-dropdown-toggle')
+const dashboardNavDropdown = document.querySelectorAll('.dashboard-nav-dropdown')
+
+if (dashboardNavDropdownToggle && dashboardNavDropdown) {
+    for (let i = 0; i < dashboardNavDropdownToggle.length; i++) {
+        dashboardNavDropdownToggle[i].addEventListener('click', () => {
+            const ic = dashboardNavDropdownToggle[i].querySelector('.drop-ic')
+            ic.classList.toggle('rotate')
+
+            for (let j = 0; j < dashboardNavDropdown.length; j++) {
+                if (j === i) {
+                    dashboardNavDropdown[j].classList.toggle('open')
+                }
+            }
+        })
+    }
+}
+
+// top bar drop down
+const dashboardTopDropdownToggle = document.querySelectorAll('.dashboard-top-dropdown-toggle')
+const dashboardTopDropdown = document.querySelectorAll('.dashboard-top-dropdown')
+
+if (dashboardTopDropdownToggle) {
+    for (let i = 0; i < dashboardTopDropdownToggle.length; i++) {
+        dashboardTopDropdownToggle[i].addEventListener('click', (e) => {
+            e.stopPropagation()
+            const ic = dashboardTopDropdownToggle[i].querySelector('.drop-ic')
+            ic.classList.toggle('rotate')
+
+            for (let j = 0; j < dashboardTopDropdown.length; j++) {
+                if (j === i) {
+                    dashboardTopDropdown[j].classList.toggle('open')
+                }
+            }
+        })
+    }
+}
+
+// double click footer logo to go to admin dashboard
+document.getElementById("footer-logo")?.addEventListener("dblclick", () => {
+    window.location.href = "./dashboard.php";
+})

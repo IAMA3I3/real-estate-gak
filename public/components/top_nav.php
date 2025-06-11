@@ -68,19 +68,19 @@ $navLinks = [
                         <div class=" drop-menu relative z-50">
                             <a href="<?php echo $navLink['url'] ?>" class="<?php echo $navLink['isActive'] ? ' text-app-primary' : ' hover:text-app-primary' ?> font-semibold flex gap-4 items-center">
                                 <span><?php echo $navLink['name'] ?></span>
-                                <?php if ($navLink['subNav']) { ?>
+                                <!-- <?php if ($navLink['subNav']) { ?>
                                     <div class=" ic rotate-0 transition-all duration-500">
                                         <i class="fa-solid fa-caret-down"></i>
                                     </div>
-                                <?php } ?>
+                                <?php } ?> -->
                             </a>
-                            <?php if ($navLink['subNav']) { ?>
+                            <!-- <?php if ($navLink['subNav']) { ?>
                                 <div class=" sub-menu -translate-y-8 opacity-0 invisible transition-all duration-500 absolute right-0 mt-2 bg-white rounded border shadow min-w-[200px] py-2 divide-y-2 text-sm font-semibold">
                                     <?php foreach ($navLink['subNav'] as $subNav) { ?>
                                         <a href="<?php echo $subNav['url'] ?>" class="<?php echo $subNav['isActive'] ? ' bg-gray-200 text-app-primary' : ' hover:bg-gray-200 hover:text-app-primary' ?> block py-1 px-4"><?php echo $subNav['name'] ?></a>
                                     <?php } ?>
                                 </div>
-                            <?php } ?>
+                            <?php } ?> -->
                         </div>
                     <?php } ?>
                 </div>
@@ -113,19 +113,19 @@ $navLinks = [
                         <div class=" drop-menu relative">
                             <a href="<?php echo $navLink['url'] ?>" class="<?php echo $navLink['isActive'] ? ' text-app-primary' : ' hover:text-app-primary' ?> font-semibold flex gap-4 items-center">
                                 <span><?php echo $navLink['name'] ?></span>
-                                <?php if ($navLink['subNav']) { ?>
+                                <!-- <?php if ($navLink['subNav']) { ?>
                                     <div class=" ic rotate-0 transition-all duration-500">
                                         <i class="fa-solid fa-caret-down"></i>
                                     </div>
-                                <?php } ?>
+                                <?php } ?> -->
                             </a>
-                            <?php if ($navLink['subNav']) { ?>
+                            <!-- <?php if ($navLink['subNav']) { ?>
                                 <div class=" sub-menu -translate-y-8 opacity-0 invisible transition-all duration-500 absolute right-0 mt-2 bg-white rounded border shadow min-w-[200px] py-2 divide-y-2 text-sm font-semibold">
                                     <?php foreach ($navLink['subNav'] as $subNav) { ?>
                                         <a href="<?php echo $subNav['url'] ?>" class="<?php echo $subNav['isActive'] ? ' bg-gray-200 text-app-primary' : ' hover:bg-gray-200 hover:text-app-primary' ?> block py-1 px-4"><?php echo $subNav['name'] ?></a>
                                     <?php } ?>
                                 </div>
-                            <?php } ?>
+                            <?php } ?> -->
                         </div>
                     <?php } ?>
                 </div>

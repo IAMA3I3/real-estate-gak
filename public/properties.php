@@ -147,7 +147,7 @@ $properties = [
                     <div class=" swiper-wrapper">
                         <?php foreach ($locations as $location) { ?>
                             <div class=" swiper-slide">
-                                <div class=" relative aspect-[3/2] shadow rounded overflow-hidden group">
+                                <div class=" relative w-full aspect-[3/2] shadow rounded overflow-hidden group">
                                     <img src="<?php echo htmlspecialchars($location['img']) ?>" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
                                     <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/85 via-transparent to-black/85 p-4 flex flex-col justify-between items-start text-white">
                                         <div class=" text-lg font-semibold"><?php echo htmlspecialchars($location['location']) ?></div>

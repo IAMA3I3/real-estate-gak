@@ -13,7 +13,11 @@
 
   .scrollbar::-webkit-scrollbar,
   html::-webkit-scrollbar {
-    @apply w-2 bg-gray-400
+    @apply w-2 h-2 bg-gray-400
+  }
+
+  .scrollbar::-webkit-scrollbar.small-scrollbar {
+    @apply w-1 h-1
   }
 
   .scrollbar::-webkit-scrollbar {
@@ -96,5 +100,64 @@
 
   .pop.show .main {
     @apply scale-100
+  }
+  .dashboard-container {
+    @apply w-screen h-screen overflow-hidden bg-gray-100
+  }
+
+  .dashboard-container .dashboard-nav-container {
+    @apply w-[250px] h-full overflow-y-auto overflow-x-hidden absolute bg-white shadow translate-x-[-250px] md:translate-x-0 z-50
+  }
+
+  .dashboard-container .dashboard-nav-container.slide {
+    @apply translate-x-0 md:translate-x-[-250px]
+  }
+
+  .dashboard-container .dashboard-main {
+    @apply h-full overflow-y-auto overflow-x-hidden md:ml-[250px]
+  }
+
+  .dashboard-container .dashboard-main.expand {
+    @apply h-full overflow-y-auto md:ml-0
+  }
+
+  .dashboard-nav-overlay {
+    @apply opacity-0 invisible
+  }
+
+  .dashboard-nav-overlay.show {
+    @apply opacity-100 visible
+  }
+
+  .dashboard-nav-dropdown-toggle .drop-ic {
+    @apply rotate-0
+  }
+
+  .dashboard-nav-dropdown-toggle .drop-ic.rotate {
+    @apply rotate-180
+  }
+
+  .dashboard-nav-dropdown {
+    @apply max-h-0
+  }
+
+  .dashboard-nav-dropdown.open {
+    @apply max-h-[500px]
+  }
+
+  .dashboard-top-dropdown-toggle .drop-ic {
+    @apply rotate-0
+  }
+
+  .dashboard-top-dropdown-toggle .drop-ic.rotate {
+    @apply rotate-180
+  }
+
+  .dashboard-top-dropdown {
+    @apply -translate-y-10 opacity-0 invisible
+  }
+
+  .dashboard-top-dropdown.open {
+    @apply translate-y-0 opacity-100 visible
   }
 }

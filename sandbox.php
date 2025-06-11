@@ -88,3 +88,52 @@ include './components/footer.php';
         <div class=" invisible opacity-0 w-0 group-hover:visible group-hover:opacity-100 group-hover:w-[60px] transition-all duration-500 aspect-square rounded-full border-white border-2 bg-black/20 text-white flex justify-center items-center text-lg"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
     </div>
 </div>
+
+
+<?php
+
+include './components/header.php';
+userAccess(['admin']);
+?>
+
+<!-- container -->
+<div class=" dashboard-container">
+    <!--  -->
+    <?php include './components/dashboard_side_nav.php' ?>
+    <!--  -->
+    <div class=" dashboard-main scrollbar transition-all duration-500">
+        <?php include './components/dashboard_top_bar.php' ?>
+        <!-- main -->
+        <div class=" p-4">
+            <div class=" text-2xl">Dashboard</div>
+        </div>
+    </div>
+</div>
+<!-- end container -->
+
+<?php
+
+include './components/footer.php';
+?>
+
+
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    try {
+        require_once '../db.php';
+        require_once '../functions.php';
+        require_once '../session.php';
+        
+        $pdo = null;
+        $stmt = null;
+        exit;
+    } catch (PDOException $e) {
+        die("Query failed: " . $e->getMessage());
+    }
+} else {
+    header('Location: ../../index.php');
+    exit;
+}
+?>

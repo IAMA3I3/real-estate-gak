@@ -1,5 +1,76 @@
 <?php
 
+// add blog
+function addBlog($pdo, $blog_id, $image, $title, $body)
+{
+    $query = "INSERT INTO blog (blog_id, image, title, body) VALUES (:blog_id, :image, :title, :body);";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam("blog_id", $blog_id);
+    $stmt->bindParam("image", $image);
+    $stmt->bindParam("title", $title);
+    $stmt->bindParam("body", $body);
+    $stmt->execute();
+}
+
+// add blog error
+function addBlogError($title, $body)
+{
+    $errors = [];
+
+    if (empty($title)) {
+        $errors['title'] = "Please enter title";
+    }
+    if (empty($body)) {
+        $errors['body'] = "Please enter body";
+    }
+
+    return $errors;
+}
+
+// update name
+function updateName($pdo, $user_id, $first_name, $last_name)
+{
+    $query = "UPDATE users SET first_name = :first_name, last_name = :last_name WHERE user_id = :user_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':first_name', $first_name);
+    $stmt->bindParam(':last_name', $last_name);
+    $stmt->execute();
+}
+
+// update name error
+function updateNameError($first_name, $last_name)
+{
+    $errors = [];
+
+    // Trim the input to remove spaces and other invisible characters
+    $first_name = trim($first_name);
+
+    // Remove any non-printable or invisible characters
+    $first_name = preg_replace('/[\x00-\x1F\x7F]/u', '', $first_name);
+
+    // Trim the input to remove spaces and other invisible characters
+    $last_name = trim($last_name);
+
+    // Remove any non-printable or invisible characters
+    $last_name = preg_replace('/[\x00-\x1F\x7F]/u', '', $last_name);
+
+    if (empty($first_name)) {
+        $errors['first_name'] = 'Please enter first name';
+    }
+    if (empty($last_name)) {
+        $errors['last_name'] = 'Please enter last name';
+    }
+    if (!empty($first_name) && !preg_match('/^[a-zA-Z]+$/', $first_name)) {
+        $errors['first_name'] = 'Must contain only letters';
+    }
+    if (!empty($last_name) && !preg_match('/^[a-zA-Z]+$/', $last_name)) {
+        $errors['last_name'] = 'Must contain only letters';
+    }
+
+    return $errors;
+}
+
 // change password
 function changePassword($pdo, $user_id, $password)
 {

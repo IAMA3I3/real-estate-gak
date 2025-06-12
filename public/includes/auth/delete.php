@@ -10,11 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         require_once '../session.php';
 
         deleteItem($pdo, "users", "user_id", $user_id);
-        $_SESSION['info'] = "User Deleted";
         if ($location === 'users') {
+            $_SESSION['info'] = "User Deleted";
             header('Location: ../../users.php');
         } elseif ($location === 'profile') {
-            header('Location: ../../profile.php');
+            unset($_SESSION['user']);
+            $_SESSION['info'] = "Account Deleted";
+            header('Location: ../../sign_in.php');
         } else {
             header('Location: ../../dashboard.php');
         }

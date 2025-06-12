@@ -58,7 +58,7 @@ $sn = 1
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class=" flex gap-2 flex-nowrap *:text-nowrap">
                                         <a href="./blog_edit.php?id=<?php echo htmlspecialchars($blog['blog_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white">Edit Blog</a>
-                                        <form action="" method="post" onsubmit="return confirm(`Proceed to delete blog`)">
+                                        <form action="./includes/blog/delete.php" method="post" onsubmit="return confirm(`Proceed to delete blog`)">
                                             <input type="hidden" name="blog_id" value="<?php echo htmlspecialchars($blog['blog_id']) ?>">
                                             <button type="submit" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white">Delete</button>
                                         </form>

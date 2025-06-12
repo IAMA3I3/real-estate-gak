@@ -1,0 +1,208 @@
+<?php
+include './components/header.php';
+userAccess(['admin']);
+
+$landlords = fetchLandlords($pdo);
+?>
+
+<!-- container -->
+<div class="dashboard-container">
+    <?php include './components/dashboard_side_nav.php' ?>
+    <div class="dashboard-main scrollbar transition-all duration-500">
+        <?php include './components/dashboard_top_bar.php' ?>
+        <div class="p-4">
+            <div class="mt-4x bg-white p-4 rounded shadow w-full max-w-[600px] m-auto">
+                <div class="text-2xl text-center">Add New Property</div>
+                <form action="includes/property/add.php" method="POST" enctype="multipart/form-data" class="app-form mt-4">
+
+                    <!-- Preview Container -->
+                    <div id="file-preview" class="grid grid-cols-3 gap-2 border-2 border-gray-300 bg-gray-100 p-2 rounded overflow-hidden min-h-[100px]">
+                        <!-- Images will show here -->
+                    </div>
+
+                    <!-- Upload button -->
+                    <div class="my-2 flex flex-col gap-1">
+                        <button type="button" id="addImageBtn" class="block w-full py-2 px-6 text-center text-sm font-semibold border-2 border-app-primary text-app-primary cursor-pointer rounded hover:bg-app-primary hover:text-white active:scale-95">
+                            Add Image
+                        </button>
+                        <input type="file" class="hidden" name="files[]" id="fileInput" accept="image/jpeg,image/png,image/gif,image/webp" multiple>
+                        <?php if (isset($_SESSION['errors']['file_upload'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['file_upload']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- name -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="name" class="text-sm font-semibold text-gray-500">Name</label>
+                        <input type="text" name="name" id="name" value="<?php echo (isset($_SESSION['input_data']['name']) && !isset($_SESSION['errors']['name'])) ? htmlspecialchars($_SESSION['input_data']['name']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['name'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['name']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- description -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="description" class="text-sm font-semibold text-gray-500">Description</label>
+                        <textarea name="description" id="description" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['description']) && !isset($_SESSION['errors']['description'])) ? htmlspecialchars($_SESSION['input_data']['description']) : '' ?></textarea>
+                        <?php if (isset($_SESSION['errors']['description'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['description']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- landlord -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="landlord" class="text-sm font-semibold text-gray-500">Landlord</label>
+                        <select name="landlord" id="landlord" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                            <option value="">Select Landlord</option>
+                            <?php foreach ($landlords as $landlord) { ?>
+                                <option <?php echo isset($_SESSION['input_data']['landlord']) && !isset($_SESSION['errors']['landlord']) && $_SESSION['input_data']['landlord'] === htmlspecialchars($landlord['user_id']) ? 'selected' : '' ?> value="<?php echo htmlspecialchars($landlord['user_id']) ?>"><?php echo htmlspecialchars($landlord['first_name']) ?> <?php echo htmlspecialchars($landlord['first_name']) ?> - <?php echo htmlspecialchars($landlord['email']) ?></option>
+                            <?php } ?>
+                        </select>
+                        <?php if (isset($_SESSION['errors']['landlord'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['landlord']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- price -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="price" class="text-sm font-semibold text-gray-500">Price (&#8358;)</label>
+                        <input type="number" name="price" id="price" value="<?php echo (isset($_SESSION['input_data']['price']) && !isset($_SESSION['errors']['price'])) ? htmlspecialchars($_SESSION['input_data']['price']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['price'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['price']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- address -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="address" class="text-sm font-semibold text-gray-500">Address</label>
+                        <textarea name="address" id="address" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['address']) && !isset($_SESSION['errors']['address'])) ? htmlspecialchars($_SESSION['input_data']['address']) : '' ?></textarea>
+                        <?php if (isset($_SESSION['errors']['address'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['address']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- status -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="status" class="text-sm font-semibold text-gray-500">Status</label>
+                        <select name="status" id="status" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                            <option value="">Select Status</option>
+                            <option <?php echo isset($_SESSION['input_data']['status']) && !isset($_SESSION['errors']['status']) && $_SESSION['input_data']['status'] === 'ongoing' ? 'selected' : '' ?> value="ongoing">Ongoing</option>
+                            <option <?php echo isset($_SESSION['input_data']['status']) && !isset($_SESSION['errors']['status']) && $_SESSION['input_data']['status'] === 'completed' ? 'selected' : '' ?> value="completed">Completed</option>
+                        </select>
+                        <?php if (isset($_SESSION['errors']['status'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['status']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- type -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="type" class="text-sm font-semibold text-gray-500">Type</label>
+                        <select name="type" id="type" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                            <option value="">Select Type</option>
+                            <option <?php echo isset($_SESSION['input_data']['type']) && !isset($_SESSION['errors']['type']) && $_SESSION['input_data']['type'] === 'rental' ? 'selected' : '' ?> value="rental">Rental</option>
+                            <option <?php echo isset($_SESSION['input_data']['type']) && !isset($_SESSION['errors']['type']) && $_SESSION['input_data']['type'] === 'sale' ? 'selected' : '' ?> value="sale">Sale</option>
+                        </select>
+                        <?php if (isset($_SESSION['errors']['type'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['type']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- size -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="size" class="text-sm font-semibold text-gray-500">Size (sqm)</label>
+                        <input type="number" name="size" id="size" value="<?php echo (isset($_SESSION['input_data']['size']) && !isset($_SESSION['errors']['size'])) ? htmlspecialchars($_SESSION['input_data']['size']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['size'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['size']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- livingroom -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="livingroom" class="text-sm font-semibold text-gray-500">Livingroom</label>
+                        <input type="number" name="livingroom" id="livingroom" value="<?php echo (isset($_SESSION['input_data']['livingroom']) && !isset($_SESSION['errors']['livingroom'])) ? htmlspecialchars($_SESSION['input_data']['livingroom']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['livingroom'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['livingroom']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- bedroom -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="bedroom" class="text-sm font-semibold text-gray-500">Bedroom</label>
+                        <input type="number" name="bedroom" id="bedroom" value="<?php echo (isset($_SESSION['input_data']['bedroom']) && !isset($_SESSION['errors']['bedroom'])) ? htmlspecialchars($_SESSION['input_data']['bedroom']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['bedroom'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['bedroom']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- bathroom -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="bathroom" class="text-sm font-semibold text-gray-500">Bathroom</label>
+                        <input type="number" name="bathroom" id="bathroom" value="<?php echo (isset($_SESSION['input_data']['bathroom']) && !isset($_SESSION['errors']['bathroom'])) ? htmlspecialchars($_SESSION['input_data']['bathroom']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['bathroom'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['bathroom']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- description -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="description" class="text-sm font-semibold text-gray-500">Description</label>
+                        <textarea name="description" id="description" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['description']) && !isset($_SESSION['errors']['description'])) ? htmlspecialchars($_SESSION['input_data']['description']) : '' ?></textarea>
+                        <?php if (isset($_SESSION['errors']['description'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['description']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="mt-4 flex justify-center">
+                        <button class="py-2 px-6 rounded bg-app-secondary text-white hover:bg-app-primary">SUBMIT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+include './components/footer.php';
+unset($_SESSION['errors']);
+unset($_SESSION['input_data']);
+?>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('fileInput');
+        const filePreview = document.getElementById('file-preview');
+        const addImageBtn = document.getElementById('addImageBtn');
+
+        addImageBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (event) => {
+            const files = Array.from(event.target.files);
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+            files.forEach(file => {
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Only image files are allowed (JPEG, PNG, GIF, WebP)');
+                    return;
+                }
+
+                if (file.size > 100 * 1024 * 1024) {
+                    alert('Each file must be under 100MB');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'w-full h-[100px] object-cover rounded';
+                    filePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    });
+</script>

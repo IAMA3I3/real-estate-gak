@@ -1,5 +1,32 @@
 <?php
 
+// fetch landlords
+function fetchLandlords($pdo)
+{
+    $query = "SELECT * FROM users WHERE user_type = 'landlord' OR user_type = 'admin';";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
+}
+
+// update blog
+function updateBlog($pdo, $blog_id, $image, $title, $body)
+{
+    if ($image) {
+        $query = "UPDATE blog SET image = :image, title = :title, body = :body WHERE blog_id = :blog_id;";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam("image", $image);
+    } else {
+        $query = "UPDATE blog SET title = :title, body = :body WHERE blog_id = :blog_id;";
+        $stmt = $pdo->prepare($query);
+    }
+    $stmt->bindParam("blog_id", $blog_id);
+    $stmt->bindParam("title", $title);
+    $stmt->bindParam("body", $body);
+    $stmt->execute();
+}
+
 // add blog
 function addBlog($pdo, $blog_id, $image, $title, $body)
 {

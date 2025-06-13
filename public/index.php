@@ -88,7 +88,7 @@ $blogs = [
 <!--  -->
 <div class=" container">
     <div class=" -mt-20 sm:-mt-12 md:-mt-20 flex flex-col sm:flex-row items-center gap-4 *:w-full">
-        <a href="./properties.php?status=on_going" class=" group z-10 aspect-[2/1] rounded-xl border-2 border-app-secondary hover:border-app-primary p-2">
+        <a href="./properties.php?status=ongoing" class=" group z-10 aspect-[2/1] rounded-xl border-2 border-app-secondary hover:border-app-primary p-2">
             <div class=" relative w-full h-full rounded-lg bg-white shadow overflow-hidden">
                 <img src="./assets/ongoing.webp" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
                 <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/85 from-40% p-4 flex flex-col justify-end">
@@ -215,7 +215,7 @@ $blogs = [
         <!--  -->
         <div class=" mt-8 flex justify-center">
             <div class=" inline-block">
-                <a href="./properties.php?status=on_going" class=" flex items-center justify-between sm:justify-normal md:text-lg gap-2 text-app-primary font-semibold hover:text-white transition border py-3 px-5 border-app-primary group bg-transparent relative">
+                <a href="./properties.php?status=ongoing" class=" flex items-center justify-between sm:justify-normal md:text-lg gap-2 text-app-primary font-semibold hover:text-white transition border py-3 px-5 border-app-primary group bg-transparent relative">
                     <div class=" absolute top-0 left-0 bg-app-primary rounded-r-md h-full w-0 group-hover:w-[60%] transition-all duration-500"></div>
                     <div class=" absolute top-0 right-0 bg-app-primary rounded-l-md h-full w-0 group-hover:w-[60%] transition-all duration-500"></div>
                     <span class=" z-10 uppercase">View All</span>
@@ -289,8 +289,71 @@ $blogs = [
     </div>
 </div>
 
-<!-- blog -->
+<!-- upcoming projects -->
 <div class=" py-16 bg-gray-200">
+    <div class=" container">
+        <div class=" w-full max-w-[600px] m-auto text-center">
+            <div class=" font-semibold">UPCOMING PROJECTS</div>
+            <div class=" mt-2 text-2xl font-bold font-playfair text-app-primary">Exciting New Developments Launching Soon</div>
+        </div>
+        <?php if (empty($properties)) { ?>
+            <div class=" my-8 text-center font-bold text-2xl text-gray-400">Nothing here yet</div>
+        <?php } else { ?>
+            <div class=" mt-8 w-full">
+                <div class=" relative swiper primary-swiper">
+                    <div class=" swiper-wrapper">
+                        <?php foreach (array_slice($properties, 0, 6) as $property) { ?>
+                            <div class=" swiper-slide">
+                                <div class=" group rounded shadow bg-white overflow-hidden">
+                                    <div class=" aspect-[3/2] overflow-hidden">
+                                        <img src="<?php echo htmlspecialchars($property['img']) ?>" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
+                                    </div>
+                                    <div class=" p-4">
+                                        <a href="./property_detail.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" text-lg font-semibold hover:text-app-primary"><?php echo htmlspecialchars($property['title']) ?></a>
+                                        <div class=" flex">
+                                            <div class=" text-app-primary w-[30px] flex-none">
+                                                <i class="fa-solid fa-location-dot"></i>
+                                            </div>
+                                            <span><?php echo htmlspecialchars($property['location']) ?></span>
+                                        </div>
+                                        <div class=" mt-4 flex flex-wrap gap-4">
+                                            <?php if ($property['size']) { ?>
+                                                <div class=" rounded py-1 px-3 bg-gray-200 flex items-center gap-2 flex-nowrap text-nowrap text-sm font-semibold">
+                                                    <i class="fa-solid fa-expand"></i>
+                                                    <div class="">Size: <span class=" text-app-primary"><?php echo htmlspecialchars($property['size']) ?> sqm</span></div>
+                                                </div>
+                                            <?php } ?>
+                                            <?php if ($property['bedrooms']) { ?>
+                                                <div class=" rounded py-1 px-3 bg-gray-200 flex items-center gap-2 flex-nowrap text-nowrap text-sm font-semibold">
+                                                    <i class="fa-solid fa-bed"></i>
+                                                    <div class="">Bedrooms: <span class=" text-app-primary"><?php echo htmlspecialchars($property['bedrooms']) ?></span></div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <!--  -->
+        <div class=" mt-8 flex justify-center">
+            <div class=" inline-block">
+                <a href="./properties.php?status=upcoming" class=" flex items-center justify-between sm:justify-normal md:text-lg gap-2 text-app-primary font-semibold hover:text-white transition border py-3 px-5 border-app-primary group bg-transparent relative">
+                    <div class=" absolute top-0 left-0 bg-app-primary rounded-r-md h-full w-0 group-hover:w-[60%] transition-all duration-500"></div>
+                    <div class=" absolute top-0 right-0 bg-app-primary rounded-l-md h-full w-0 group-hover:w-[60%] transition-all duration-500"></div>
+                    <span class=" z-10 uppercase">View All</span>
+                    <i class="fa-solid fa-arrow-right z-10"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- blog -->
+<div class=" py-16">
     <div class=" container">
         <div class=" w-full max-w-[600px] m-auto text-center">
             <div class=" font-semibold">OUR BLOG</div>

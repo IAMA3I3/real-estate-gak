@@ -54,7 +54,7 @@ $sn = 1
                                 <td class="px-6 py-4 whitespace-nowrap"><?php echo $sn++ ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class=" w-[50px] aspect-square rounded overflow-hidden">
-                                        <img src="<?php echo $property['images'] ? './includes/blog/' . explode(', ', $property['images'])[0] : './assets/showcase.png' ?>" class=" w-full h-full object-cover" alt="">
+                                        <img src="<?php echo $property['images'] ? './includes/property/' . explode(', ', $property['images'])[0] : './assets/showcase.png' ?>" class=" w-full h-full object-cover" alt="">
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">

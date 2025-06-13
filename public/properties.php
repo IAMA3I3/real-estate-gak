@@ -103,8 +103,8 @@ $properties = [
             <div class=" mt-2">Browse a wide range of properties - from ongoing developments to ready-to-rent and for-sale listings</div>
         </div>
         <!--  -->
-        <div class=" mt-8 flex flex-col sm:flex-row items-center gap-4 *:w-full">
-            <a href="./properties.php?status=on_going" class=" group z-10 aspect-[2/1] rounded-xl border-2 border-app-secondary hover:border-app-primary p-2">
+        <div class=" mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 *:w-full">
+            <a href="./properties.php?status=ongoing" class=" group z-10 aspect-[2/1] rounded-xl border-2 border-app-secondary hover:border-app-primary p-2">
                 <div class=" relative w-full h-full rounded-lg bg-white shadow overflow-hidden">
                     <img src="./assets/ongoing.webp" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
                     <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/85 from-40% p-4 flex flex-col justify-end">
@@ -125,6 +125,14 @@ $properties = [
                     <img src="./assets/house-1.jpg" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
                     <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/85 from-40% p-4 flex flex-col justify-end">
                         <div class=" text-white font-semibold text-xl group-hover:text-app-primary">Sales</div>
+                    </div>
+                </div>
+            </a>
+            <a href="./properties.php?status=upcoming" class=" group z-10 aspect-[2/1] rounded-xl border-2 border-app-secondary hover:border-app-primary p-2">
+                <div class=" relative w-full h-full rounded-lg bg-white shadow overflow-hidden">
+                    <img src="./assets/house-3.jpg" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
+                    <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/85 from-40% p-4 flex flex-col justify-end">
+                        <div class=" text-white font-semibold text-xl group-hover:text-app-primary">Upcoming</div>
                     </div>
                 </div>
             </a>

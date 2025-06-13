@@ -143,9 +143,9 @@ $landlords = fetchLandlords($pdo);
                         <?php } ?>
                     </div>
 
-                    <!-- description -->
+                    <!-- features -->
                     <div class="my-2 flex flex-col gap-1 items-start">
-                        <label for="description" class="text-sm font-semibold text-gray-500">Description</label>
+                        <label for="description" class="text-sm font-semibold text-gray-500">Features / Amenities (Seperate by ', ')</label>
                         <textarea name="description" id="description" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['description']) && !isset($_SESSION['errors']['description'])) ? htmlspecialchars($_SESSION['input_data']['description']) : '' ?></textarea>
                         <?php if (isset($_SESSION['errors']['description'])) { ?>
                             <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['description']) ?></div>

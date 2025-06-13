@@ -1,5 +1,70 @@
 <?php
 
+// add property
+function addProperty($pdo, $property_id, $images, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $features)
+{
+    $query = "INSERT INTO properties (property_id, images, name, description, landlord_id, price, address, status, type, size, livingroom, bedroom, bathroom, features) VALUES (:property_id, :images, :name, :description, :landlord_id, :price, :address, :status, :type, :size, :livingroom, :bedroom, :bathroom, :features);";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam("property_id", $property_id);
+    $stmt->bindParam("images", $images);
+    $stmt->bindParam("name", $name);
+    $stmt->bindParam("description", $description);
+    $stmt->bindParam("landlord_id", $landlord_id);
+    $stmt->bindParam("price", $price);
+    $stmt->bindParam("address", $address);
+    $stmt->bindParam("status", $status);
+    $stmt->bindParam("type", $type);
+    $stmt->bindParam("size", $size);
+    $stmt->bindParam("livingroom", $livingroom);
+    $stmt->bindParam("bedroom", $bedroom);
+    $stmt->bindParam("bathroom", $bathroom);
+    $stmt->bindParam("features", $features);
+    $stmt->execute();
+}
+
+// add property errors
+function addPropertyErrors($name, $description, $landlord_id, $price, $address, $status, $type, $size)
+{
+    $errors = [];
+
+    $name = trim($name);
+    $description = trim($description);
+    $address = trim($address);
+
+    if (empty($name)) {
+        $errors['name'] = "Name is required";
+    }
+    if (empty($description)) {
+        $errors['description'] = "Description is required";
+    }
+    if (empty($landlord_id)) {
+        $errors['landlord'] = "Landlord is required";
+    }
+    if (empty($price)) {
+        $errors['price'] = "Price is required";
+    }
+    if (!empty($price) && !is_numeric($price)) {
+        $errors['price'] = "Must be a number";
+    }
+    if (empty($address)) {
+        $errors['address'] = "Address is required";
+    }
+    if (empty($status)) {
+        $errors['status'] = "Status is required";
+    }
+    if (empty($type)) {
+        $errors['type'] = "Type is required";
+    }
+    if (empty($size)) {
+        $errors['size'] = "Size is required";
+    }
+    if (!empty($size) && !is_numeric($size)) {
+        $errors['size'] = "Must be a number";
+    }
+
+    return $errors;
+}
+
 // fetch landlords
 function fetchLandlords($pdo)
 {

@@ -1307,6 +1307,10 @@ body {
   width: 120px;
 }
 
+.w-\[150px\] {
+  width: 150px;
+}
+
 .w-\[20px\] {
   width: 20px;
 }
@@ -2706,6 +2710,10 @@ body {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
 }
 
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
+}
+
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -2863,6 +2871,10 @@ body {
 .object-scale-down {
   -o-object-fit: scale-down;
      object-fit: scale-down;
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .p-2 {

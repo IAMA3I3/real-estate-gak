@@ -5,7 +5,7 @@ $navLinks = [
     ['name' => 'Dashboard', 'url' => './landlord_dashboard.php', 'isActive' => isPageActive('landlord_dashboard.php'), 'ic' => '<i class="fa-solid fa-house"></i>', 'access' => ["landlord"]],
     ['name' => 'Dashboard', 'url' => './user_dashboard.php', 'isActive' => isPageActive('user_dashboard.php'), 'ic' => '<i class="fa-solid fa-house"></i>', 'access' => ["user"]],
     ['name' => 'Users', 'url' => './users.php', 'isActive' => isPageActive('users.php') || isPageActive('update_user_type.php') || isPageActive('reset_user_password.php'), 'ic' => '<i class="fa-solid fa-users"></i>', 'access' => ["admin"]],
-    ['name' => 'Properties', 'url' => './dashboard_properties.php', 'isActive' => isPageActive('dashboard_properties.php') || isPageActive('dashboard_properties_detail.php') || isPageActive('property_add.php') || isPageActive('property_edit.php'), 'ic' => '<i class="fa-solid fa-city"></i>', 'access' => ["admin", "landlord"]],
+    ['name' => 'Properties', 'url' => './dashboard_properties.php', 'isActive' => isPageActive('dashboard_properties.php') || isPageActive('dashboard_property_detail.php') || isPageActive('property_add.php') || isPageActive('property_edit.php'), 'ic' => '<i class="fa-solid fa-city"></i>', 'access' => ["admin", "landlord"]],
     ['name' => 'Blog', 'url' => './dashboard_blog.php', 'isActive' => isPageActive('dashboard_blog.php') || isPageActive('dashboard_blog_detail.php') || isPageActive('blog_add.php') || isPageActive('blog_edit.php'), 'ic' => '<i class="fa-solid fa-blog"></i>', 'access' => ["admin"]]
 ];
 

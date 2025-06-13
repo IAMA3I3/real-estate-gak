@@ -1,9 +1,9 @@
 <?php
 
 // add property
-function addProperty($pdo, $property_id, $images, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $features)
+function addProperty($pdo, $property_id, $images, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features)
 {
-    $query = "INSERT INTO properties (property_id, images, name, description, landlord_id, price, address, status, type, size, livingroom, bedroom, bathroom, features) VALUES (:property_id, :images, :name, :description, :landlord_id, :price, :address, :status, :type, :size, :livingroom, :bedroom, :bathroom, :features);";
+    $query = "INSERT INTO properties (property_id, images, name, description, landlord_id, price, address, status, type, size, livingroom, bedroom, bathroom, property_condition, features) VALUES (:property_id, :images, :name, :description, :landlord_id, :price, :address, :status, :type, :size, :livingroom, :bedroom, :bathroom, :property_condition, :features);";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam("property_id", $property_id);
     $stmt->bindParam("images", $images);
@@ -18,6 +18,7 @@ function addProperty($pdo, $property_id, $images, $name, $description, $landlord
     $stmt->bindParam("livingroom", $livingroom);
     $stmt->bindParam("bedroom", $bedroom);
     $stmt->bindParam("bathroom", $bathroom);
+    $stmt->bindParam("property_condition", $property_condition);
     $stmt->bindParam("features", $features);
     $stmt->execute();
 }

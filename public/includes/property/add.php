@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $livingroom = $_POST['livingroom'];
     $bedroom = $_POST['bedroom'];
     $bathroom = $_POST['bathroom'];
+    $property_condition = $_POST['property_condition'];
     $features = $_POST['features'];
     $filePaths = [];
 
@@ -72,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'livingroom' => $livingroom,
                 'bedroom' => $bedroom,
                 'bathroom' => $bathroom,
+                'property_condition' => $property_condition,
                 'features' => $features
             ];
             $_SESSION['input_data'] = $input_data;
@@ -82,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $property_id = generateId($pdo, "properties", "property_id");
         $filePathString = implode(', ', $filePaths); // Combine all file paths
 
-        addProperty($pdo, $property_id, $filePathString, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $features);
+        addProperty($pdo, $property_id, $filePathString, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features);
 
         $_SESSION['success'] = "Property Added";
         header('Location: ../../dashboard_properties.php');

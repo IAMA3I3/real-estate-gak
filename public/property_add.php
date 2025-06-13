@@ -23,7 +23,7 @@ $landlords = fetchLandlords($pdo);
                     <!-- Upload button -->
                     <div class="my-2 flex flex-col gap-1">
                         <button type="button" id="addImageBtn" class="block w-full py-2 px-6 text-center text-sm font-semibold border-2 border-app-primary text-app-primary cursor-pointer rounded hover:bg-app-primary hover:text-white active:scale-95">
-                            Add Image
+                            Upload Images
                         </button>
                         <input type="file" class="hidden" name="files[]" id="fileInput" accept="image/jpeg,image/png,image/gif,image/webp" multiple>
                         <?php if (isset($_SESSION['errors']['file_upload'])) { ?>
@@ -143,12 +143,21 @@ $landlords = fetchLandlords($pdo);
                         <?php } ?>
                     </div>
 
+                    <!-- condition -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="property_condition" class="text-sm font-semibold text-gray-500">Property Condition</label>
+                        <textarea name="property_condition" id="property_condition" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['property_condition']) && !isset($_SESSION['errors']['property_condition'])) ? htmlspecialchars($_SESSION['input_data']['property_condition']) : '' ?></textarea>
+                        <?php if (isset($_SESSION['errors']['property_condition'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['property_condition']) ?></div>
+                        <?php } ?>
+                    </div>
+
                     <!-- features -->
                     <div class="my-2 flex flex-col gap-1 items-start">
-                        <label for="description" class="text-sm font-semibold text-gray-500">Features / Amenities (Seperate by ', ')</label>
-                        <textarea name="description" id="description" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['description']) && !isset($_SESSION['errors']['description'])) ? htmlspecialchars($_SESSION['input_data']['description']) : '' ?></textarea>
-                        <?php if (isset($_SESSION['errors']['description'])) { ?>
-                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['description']) ?></div>
+                        <label for="features" class="text-sm font-semibold text-gray-500">Features / Amenities (Seperate by ', ')</label>
+                        <textarea name="features" id="features" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['features']) && !isset($_SESSION['errors']['features'])) ? htmlspecialchars($_SESSION['input_data']['features']) : '' ?></textarea>
+                        <?php if (isset($_SESSION['errors']['features'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['features']) ?></div>
                         <?php } ?>
                     </div>
 
@@ -183,6 +192,14 @@ unset($_SESSION['input_data']);
             const files = Array.from(event.target.files);
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
+            // Clear previous previews
+            filePreview.innerHTML = '';
+
+            // If no files selected, show empty state
+            if (files.length === 0) {
+                return;
+            }
+
             files.forEach(file => {
                 if (!allowedTypes.includes(file.type)) {
                     alert('Only image files are allowed (JPEG, PNG, GIF, WebP)');
@@ -196,10 +213,21 @@ unset($_SESSION['input_data']);
 
                 const reader = new FileReader();
                 reader.onload = (e) => {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'relative';
+
                     const img = document.createElement('img');
                     img.src = e.target.result;
                     img.className = 'w-full h-[100px] object-cover rounded';
-                    filePreview.appendChild(img);
+
+                    // Optional: Add file name overlay
+                    const fileName = document.createElement('div');
+                    fileName.textContent = file.name;
+                    fileName.className = 'absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b truncate';
+
+                    imgContainer.appendChild(img);
+                    imgContainer.appendChild(fileName);
+                    filePreview.appendChild(imgContainer);
                 };
                 reader.readAsDataURL(file);
             });

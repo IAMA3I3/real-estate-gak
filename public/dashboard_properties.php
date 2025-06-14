@@ -49,33 +49,59 @@ $sn = 1
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         <?php foreach ($properties as $property) { ?>
-                            <?php $landlord = fetchById($pdo, $property['landlord_id'], "users", "user_id") ?>
-                            <tr data-href="dashboard_property_detail.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class="hover:bg-blue-50 transition cursor-pointer">
-                                <td class="px-6 py-4 whitespace-nowrap"><?php echo $sn++ ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class=" w-[50px] aspect-square rounded overflow-hidden">
-                                        <img src="<?php echo $property['images'] ? './includes/property/' . explode(', ', $property['images'])[0] : './assets/showcase.png' ?>" class=" w-full h-full object-cover" alt="">
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class=" max-w-[300px] text-wrap line-clamp-2"><?php echo htmlspecialchars($property['name']) ?></div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class=" max-w-[200px] text-wrap line-clamp-2"><?php echo htmlspecialchars($property['address']) ?></div>
-                                </td>
-                                <?php if ($_SESSION['user']['user_type'] === 'admin') { ?>
-                                    <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($landlord['first_name']) ?> <?php echo htmlspecialchars($landlord['last_name']) ?></td>
+                            <?php if ($_SESSION['user']['user_type'] === 'landlord') { ?>
+                                <?php if ($property['landlord_id'] === $_SESSION['user']['user_id']) { ?>
+                                    <tr data-href="dashboard_property_detail.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class="hover:bg-blue-50 transition cursor-pointer">
+                                        <td class="px-6 py-4 whitespace-nowrap"><?php echo $sn++ ?></td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class=" w-[50px] aspect-square rounded overflow-hidden">
+                                                <img src="<?php echo $property['images'] ? './includes/property/' . explode(', ', $property['images'])[0] : './assets/showcase.png' ?>" class=" w-full h-full object-cover" alt="">
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class=" max-w-[300px] text-wrap line-clamp-2"><?php echo htmlspecialchars($property['name']) ?></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class=" max-w-[200px] text-wrap line-clamp-2"><?php echo htmlspecialchars($property['address']) ?></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['status']) ?></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['type']) ?></div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['availability']) ?></div>
+                                        </td>
+                                    </tr>
                                 <?php } ?>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['status']) ?></div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['type']) ?></div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['availability']) ?></div>
-                                </td>
-                            </tr>
+                            <?php } else { ?>
+                                <?php $landlord = fetchById($pdo, $property['landlord_id'], "users", "user_id") ?>
+                                <tr data-href="dashboard_property_detail.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class="hover:bg-blue-50 transition cursor-pointer">
+                                    <td class="px-6 py-4 whitespace-nowrap"><?php echo $sn++ ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class=" w-[50px] aspect-square rounded overflow-hidden">
+                                            <img src="<?php echo $property['images'] ? './includes/property/' . explode(', ', $property['images'])[0] : './assets/showcase.png' ?>" class=" w-full h-full object-cover" alt="">
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class=" max-w-[300px] text-wrap line-clamp-2"><?php echo htmlspecialchars($property['name']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class=" max-w-[200px] text-wrap line-clamp-2"><?php echo htmlspecialchars($property['address']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars($landlord['first_name']) ?> <?php echo htmlspecialchars($landlord['last_name']) ?></td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['status']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['type']) ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class=" text-xs font-semibold uppercase"><?php echo htmlspecialchars($property['availability']) ?></div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         <?php } ?>
                     </tbody>
                 </table>

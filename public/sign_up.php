@@ -36,6 +36,13 @@ include './components/header.php';
                             <?php } ?>
                         </div>
                         <div class=" flex flex-col items-start gap-1 my-2">
+                            <label for="phone" class=" text-sm font-semibold text-gray-500">Phone</label>
+                            <input type="text" name="phone" id="phone" value="<?php echo (isset($_SESSION['input_data']['phone']) && !isset($_SESSION['errors']['phone'])) ? htmlspecialchars($_SESSION['input_data']['phone']) : '' ?>" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
+                            <?php if (isset($_SESSION['errors']['phone'])) { ?>
+                                <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['phone'] ?></div>
+                            <?php } ?>
+                        </div>
+                        <div class=" flex flex-col items-start gap-1 my-2">
                             <label for="password" class=" text-sm font-semibold text-gray-500">Password</label>
                             <input type="password" name="password" id="password" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
                             <?php if (isset($_SESSION['errors']['password'])) { ?>

@@ -2,7 +2,7 @@
 ob_start();
 
 include './components/header.php';
-userAccess(['admin']);
+userAccess(['admin', 'landlord']);
 
 if (!isset($_GET['id'])) {
     header('Location: ./dashboard_properties.php');
@@ -19,8 +19,11 @@ if (!$property) {
 $landlord = fetchById($pdo, $property['landlord_id'], "users", "user_id");
 
 $tenant = null;
-if ($property['tenant_id']) {
-    $tenant = fetchById($pdo, $property['tenant_id'], "users", "user_id");
+if ($property['availability'] === 'occupied') {
+    $rent = fetchByIdWithCondition($pdo, $property['property_id'], "rents", "property_id", "status", "active");
+    if ($rent) {
+        $tenant = fetchById($pdo, $rent['tenant_id'], "users", "user_id");
+    }
 }
 
 ob_end_flush();
@@ -88,7 +91,7 @@ ob_end_flush();
             <!-- others -->
             <div class=" mt-4 rounded shadow bg-white p-4 flex gap-4 flex-wrap">
                 <!-- price -->
-                <div class=""><span class=" font-semibold">Price:</span> <span class=" capitalize">&#8358; <?php echo htmlspecialchars(number_format($property['price'])) ?></span></div>
+                <div class=""><span class=" font-semibold">Price:</span> <span class=" capitalize">&#8358;<?php echo htmlspecialchars(number_format($property['price'])) ?></span></div>
                 <!-- status -->
                 <div class=""><span class=" font-semibold">Status:</span> <span class=" capitalize"><?php echo htmlspecialchars($property['status']) ?></span></div>
                 <!-- type -->
@@ -108,16 +111,34 @@ ob_end_flush();
             </div>
             <!-- tenatnt -->
             <div class=" mt-4 rounded shadow bg-white p-4">
-                <div class=" text-lg font-semibold">Tenant</div>
+                <div class=" flex justify-between items-center">
+                    <div class=" text-lg font-semibold">Tenant</div>
+                    <a href="./rent_history.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white">Rent History</a>
+                </div>
                 <?php if ($tenant) { ?>
                     <div class=" mt-4"><?php echo htmlspecialchars($tenant['first_name']) ?> <?php echo htmlspecialchars($tenant['last_name']) ?></div>
                     <div class=" text-sm font-semibold"><?php echo htmlspecialchars($tenant['email']) ?></div>
                     <div class=" mt-2"><span class=" font-semibold">Rent Start:</span> <span class=" capitalize"><?php echo htmlspecialchars(date('d F, Y', strtotime($property['rent_start']))) ?></span></div>
                     <div class=" mt-2"><span class=" font-semibold">Rent End:</span> <span class=" capitalize"><?php echo htmlspecialchars(date('d F, Y', strtotime($property['rent_end']))) ?></span></div>
                 <?php } else { ?>
-                    <div class=" mt-4 text-center font-bold text-3xl text-gray-400">No Tenant</div>
+                    <div class=" mt-4 text-center font-bold text-3xl text-gray-400">No Active Tenant</div>
+                    <?php if ($_SESSION['user']['user_type'] === 'admin') { ?>
+                        <div class=" mt-4 text-center">
+                            <a href="./add_tenant.php?property_id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" font-semibold text-app-primary hover:underline">Add Tenant</a>
+                        </div>
+                    <?php } ?>
                 <?php } ?>
             </div>
+            <!--  -->
+            <?php if ($_SESSION['user']['user_type'] === 'admin') { ?>
+                <div class=" mt-4 rounded shadow bg-white p-4 flex flex-wrap gap-4">
+                    <a href="./property_edit.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white">Edit Property</a>
+                    <form action="./includes/property/delete.php" method="post" onsubmit="return confirm(`Proceed to delete property`)">
+                        <input type="hidden" name="property_id" value="<?php echo htmlspecialchars($property['property_id']) ?>">
+                        <button type="submit" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white">Delete Property</button>
+                    </form>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </div>

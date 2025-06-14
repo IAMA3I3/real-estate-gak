@@ -6,14 +6,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+    $property_id = $_POST['property_id'];
 
     try {
         require_once '../db.php';
         require_once '../functions.php';
         require_once '../session.php';
 
-        $errors = validateUser($pdo, $first_name, $last_name, $email, $password, $confirm_password);
+        $errors = validateUser($pdo, $first_name, $last_name, $email, $password, $password);
         if ($errors) {
             $_SESSION['errors'] = $errors;
             $input_data = [
@@ -23,20 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'phone' => $phone
             ];
             $_SESSION['input_data'] = $input_data;
-            header('Location: ../../sign_up.php');
+            header('Location: ../../add_tenant.php?property_id=' . $property_id);
             exit;
         }
 
         $user_id = generateId($pdo, "users", "user_id");
         addUser($pdo, $user_id, $first_name, $last_name, $email, $phone, $password);
-        $user = fetchUserByEmail($pdo, $email);
-        $_SESSION['user'] = $user;
-        $_SESSION['success'] = "Welcome";
-        if (isset($_SESSION['page'])) {
-            header('Location: ../../' . $_SESSION['page']);
-        } else {
-            header('Location: ../../dashboard.php');
-        }
+        $_SESSION['success'] = "Tenant Added";
+        header('Location: ../../dashboard_property_detail.php?id=' . $property_id);
         $pdo = null;
         $stmt = null;
         exit;

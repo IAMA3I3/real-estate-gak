@@ -1,5 +1,25 @@
 <?php
 
+// update a column
+function updateColumn($pdo, $db_table, $item_id, $id_column, $update_column, $value)
+{
+    $query = "UPDATE $db_table SET $update_column = :value WHERE $id_column = :item_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam("value", $value);
+    $stmt->bindParam("item_id", $item_id);
+    $stmt->execute();
+}
+
+// fetch users
+function fetchUsers($pdo)
+{
+    $query = "SELECT * FROM users WHERE user_type = 'user';";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
+}
+
 // add property
 function addProperty($pdo, $property_id, $images, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features)
 {
@@ -237,6 +257,18 @@ function takenByOther($pdo, $db_table, $unique_column, $value, $id_column, $item
     }
 }
 
+// fetch items by there id with condition
+function fetchByIdWithCondition($pdo, $item_id, $db_table, $id_column, $condition_column, $condition_value)
+{
+    $query = "SELECT * FROM $db_table WHERE $id_column = :item_id AND $condition_column = :condition_value;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':item_id', $item_id);
+    $stmt->bindParam(':condition_value', $condition_value);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row;
+}
+
 // fetch items by there id
 function fetchById($pdo, $item_id, $db_table, $id_column)
 {
@@ -263,6 +295,17 @@ function isUnique($pdo, $db_table, $column, $value)
     } else {
         return true;
     }
+}
+
+// fetch all condition column items
+function fetchAllBy($pdo, $db_table, $column, $value)
+{
+    $query = "SELECT * FROM $db_table WHERE $column = :value ORDER BY created_at DESC;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':value', $value);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
 }
 
 // fetch all items
@@ -308,9 +351,9 @@ function loginError($email, $password, $row)
 }
 
 // add user
-function addUser($pdo, $user_id, $firstName, $lastName, $email, $password)
+function addUser($pdo, $user_id, $firstName, $lastName, $email, $phone, $password)
 {
-    $query = "INSERT INTO users (user_id, first_name, last_name, email, password) VALUES (:user_id, :first_name, :last_name, :email, :password);";
+    $query = "INSERT INTO users (user_id, first_name, last_name, email, phone, password) VALUES (:user_id, :first_name, :last_name, :email, :phone, :password);";
 
     $options = [
         "cost" => 12
@@ -322,6 +365,7 @@ function addUser($pdo, $user_id, $firstName, $lastName, $email, $password)
     $stmt->bindParam(":first_name", $firstName);
     $stmt->bindParam(":last_name", $lastName);
     $stmt->bindParam(":email", $email);
+    $stmt->bindParam(":phone", $phone);
     $stmt->bindParam(":password", $hashedPassword);
     $stmt->execute();
 }

@@ -97,7 +97,7 @@ $blogs = fetchAll($pdo, "blog");
         <?php } else { ?>
             <div class=" mt-4 flex flex-col md:flex-row gap-4 *:w-full">
                 <?php foreach (array_slice($locations, 0, 3) as $location) { ?>
-                    <div class=" relative aspect-[3/2] shadow rounded overflow-hidden group">
+                    <div class=" relative max-w-[600px] aspect-[3/2] shadow rounded overflow-hidden group">
                         <img src="<?php echo $location['image'] ? './includes/location/' . $location['image'] : './assets/showcase.png' ?>" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
                         <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/85 via-transparent to-black/85 p-4 flex flex-col justify-between items-start text-white">
                             <div class=" text-lg font-semibold"><?php echo htmlspecialchars($location['name']) ?></div>
@@ -113,7 +113,7 @@ $blogs = fetchAll($pdo, "blog");
             </div>
             <div class=" mt-4 flex flex-col md:flex-row gap-4 *:w-full">
                 <?php foreach (array_slice($locations, 3, 2) as $location) { ?>
-                    <div class=" relative aspect-[3/1] shadow rounded overflow-hidden group">
+                    <div class=" relative max-w-[600px] aspect-[3/1] shadow rounded overflow-hidden group">
                         <img src="<?php echo $location['image'] ? './includes/location/' . $location['image'] : './assets/showcase.png' ?>" class=" w-full h-full object-cover group-hover:scale-105 transition-all duration-500" alt="">
                         <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/85 via-transparent to-black/85 p-4 flex flex-col justify-between items-start text-white">
                             <div class=" text-lg font-semibold"><?php echo htmlspecialchars($location['name']) ?></div>

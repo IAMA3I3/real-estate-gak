@@ -9,7 +9,7 @@ $backLink = '#';
 switch ($currentPage) {
     case 'property_detail.php':
         $pageTitle = 'Properties';
-        $pageSubTitle = htmlspecialchars($property['title']);
+        $pageSubTitle = htmlspecialchars($property['name']);
         $backLink = './properties.php';
         break;
 

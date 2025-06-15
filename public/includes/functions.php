@@ -481,6 +481,19 @@ function fetchAllBy($pdo, $db_table, $column, $value)
     return $results;
 }
 
+// fetch all items with pagination
+function fetchAllWithPagination($pdo, $db_table, $limit, $page)
+{
+    $offset = ((int)$page - 1) * (int)$limit;
+    $query = "SELECT * FROM $db_table ORDER BY created_at DESC LIMIT :limit OFFSET :offset;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
+}
+
 // fetch all items
 function fetchAll($pdo, $db_table)
 {

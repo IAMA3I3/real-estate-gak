@@ -1,10 +1,6 @@
 <?php
 
-$blogs = [
-    ['blog_id' => 'djjr648fnnher','title' => 'Blog Title', 'body' => 'Lorem ipsum dolor', 'img' => null,'seen' => 9, 'created_at' => '2025-04-28 14:14:01'],
-    ['blog_id' => 'djjr648fnnher','title' => 'Blog Title', 'body' => 'Lorem ipsum dolor', 'img' => null,'seen' => 9, 'created_at' => '2025-04-28 14:14:01'],
-    ['blog_id' => 'djjr648fnnher','title' => 'Blog Title', 'body' => 'Lorem ipsum dolor', 'img' => null,'seen' => 9, 'created_at' => '2025-04-28 14:14:01']
-];
+$blogs = fetchAll($pdo, "blog");
 ?>
 
 <!-- footer -->
@@ -59,7 +55,7 @@ $blogs = [
                         <?php foreach (array_splice($blogs, 0, 3) as $blog) { ?>
                             <a href="./blog_detail.php?id=<?php echo $blog['blog_id'] ?>" class=" my-4 pb-4 border-b border-gray-600 flex items-center gap-4 group">
                                 <div class=" relative w-[50px] flex-none aspect-square overflow-hidden">
-                                    <img src="<?php echo ($blog['img']) ? './includes/blog/' . htmlspecialchars($blog['img']) : './assets/showcase.png'; ?>" class=" w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="">
+                                    <img src="<?php echo ($blog['image']) ? './includes/blog/' . htmlspecialchars($blog['image']) : './assets/showcase.png'; ?>" class=" w-full h-full object-cover group-hover:scale-110 transition-all duration-500" alt="">
                                     <div class=" absolute top-0 left-0 w-full h-full group-hover:bg-app-primary/50 transition-all duration-500"></div>
                                 </div>
                                 <div class=" flex-1 overflow-hidden">

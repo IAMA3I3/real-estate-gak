@@ -10,6 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $landlord_id = $_POST['landlord'];
     $price = $_POST['price'];
     $address = $_POST['address'];
+    $location_id = $_POST['location'];
+    $latitude = $_POST['latitude'];
+    $longitude = $_POST['longitude'];
     $status = $_POST['status'];
     $type = $_POST['type'];
     $size = $_POST['size'];
@@ -20,10 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $features = $_POST['features'];
     $filePaths = [];
 
-    // Handle multiple file uploads
+    // Handle multiple file uploads (images and videos)
     if (isset($_FILES['files']) && is_array($_FILES['files']['name'])) {
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        $maxFileSize = 300 * 1024 * 1024; // 300MB
+        $allowedImageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $allowedVideoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'];
+        $allowedExtensions = array_merge($allowedImageExtensions, $allowedVideoExtensions);
+        
+        $maxFileSize = 500 * 1024 * 1024; // 500MB to accommodate videos
         $uploadDir = 'uploads/';
 
         if (!file_exists($uploadDir)) {
@@ -39,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
 
             if ($error === UPLOAD_ERR_OK && in_array($ext, $allowedExtensions) && $file_size <= $maxFileSize) {
-                $uniqueFileName = 'property_' . time() . '_' . $index . '.' . $ext;
+                $fileType = in_array($ext, $allowedImageExtensions) ? 'image' : 'video';
+                $uniqueFileName = 'property_' . $fileType . '_' . time() . '_' . $index . '.' . $ext;
                 $destPath = $uploadDir . $uniqueFileName;
 
                 if (move_uploaded_file($tmpPath, $destPath)) {
@@ -50,7 +57,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     exit;
                 }
             } elseif ($error !== UPLOAD_ERR_NO_FILE) {
-                $_SESSION['errors']['file_upload'] = "Invalid file or file too large.";
+                if ($file_size > $maxFileSize) {
+                    $_SESSION['errors']['file_upload'] = "File too large. Maximum file size is 500MB.";
+                } else {
+                    $_SESSION['errors']['file_upload'] = "Invalid file type. Only images (JPEG, PNG, GIF, WebP) and videos (MP4, AVI, MOV, WMV, FLV, WebM) are allowed.";
+                }
                 header('Location: ../../property_add.php');
                 exit;
             }
@@ -58,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $errors = addPropertyErrors($name, $description, $landlord_id, $price, $address, $status, $type, $size);
+        $errors = addPropertyErrors($name, $description, $landlord_id, $price, $address, $latitude, $longitude, $status, $type, $size);
         if ($errors) {
             $_SESSION['errors'] = $errors;
             $input_data = [
@@ -66,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'description' => $description,
                 'landlord' => $landlord_id,
                 'price' => $price,
+                'location' => $location_id,
                 'address' => $address,
                 'status' => $status,
                 'type' => $type,
@@ -81,10 +93,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
+        if (empty($latitude)) {
+            $latitude = null;
+        }
+        if (empty($longitude)) {
+            $longitude = null;
+        }
+
         $property_id = generateId($pdo, "properties", "property_id");
         $filePathString = implode(', ', $filePaths); // Combine all file paths
 
-        addProperty($pdo, $property_id, $filePathString, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features);
+        addProperty($pdo, $property_id, $filePathString, $name, $description, $landlord_id, $price, $location_id, $address, $latitude, $longitude, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features);
 
         $_SESSION['success'] = "Property Added";
         header('Location: ../../dashboard_properties.php');

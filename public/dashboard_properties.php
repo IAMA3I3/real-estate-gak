@@ -36,7 +36,7 @@ $sn = 1
                     <thead class="bg-gray-300 text-gray-800 font-semibold">
                         <tr>
                             <th class="px-6 py-4">S/N</th>
-                            <th class="px-6 py-4">Image</th>
+                            <th class="px-6 py-4">Media</th>
                             <th class="px-6 py-4">Name</th>
                             <th class="px-6 py-4">Address</th>
                             <?php if ($_SESSION['user']['user_type'] === 'admin') { ?>
@@ -54,8 +54,32 @@ $sn = 1
                                     <tr data-href="dashboard_property_detail.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class="hover:bg-blue-50 transition cursor-pointer">
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo $sn++ ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class=" w-[50px] aspect-square rounded overflow-hidden">
-                                                <img src="<?php echo $property['images'] ? './includes/property/' . explode(', ', $property['images'])[0] : './assets/showcase.png' ?>" class=" w-full h-full object-cover" alt="">
+                                            <div class=" w-[50px] aspect-square rounded overflow-hidden relative">
+                                                <?php 
+                                                // Get first media file (could be image or video)
+                                                $firstMedia = null;
+                                                $isVideo = false;
+                                                
+                                                if ($property['images']) {
+                                                    $firstMedia = explode(', ', $property['images'])[0];
+                                                    // Check if it's a video file
+                                                    $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+                                                    $fileExtension = strtolower(pathinfo($firstMedia, PATHINFO_EXTENSION));
+                                                    $isVideo = in_array($fileExtension, $videoExtensions);
+                                                }
+                                                
+                                                if ($firstMedia && $isVideo) { ?>
+                                                    <video class=" w-full h-full object-cover" muted>
+                                                        <source src="<?php echo './includes/property/' . htmlspecialchars($firstMedia) ?>" type="video/<?php echo $fileExtension ?>">
+                                                    </video>
+                                                    <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                                                        <i class="fa-solid fa-play text-white text-lg"></i>
+                                                    </div>
+                                                <?php } elseif ($firstMedia) { ?>
+                                                    <img src="<?php echo './includes/property/' . htmlspecialchars($firstMedia) ?>" class=" w-full h-full object-cover" alt="">
+                                                <?php } else { ?>
+                                                    <img src="./assets/showcase.png" class=" w-full h-full object-cover" alt="">
+                                                <?php } ?>
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -80,8 +104,32 @@ $sn = 1
                                 <tr data-href="dashboard_property_detail.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class="hover:bg-blue-50 transition cursor-pointer">
                                     <td class="px-6 py-4 whitespace-nowrap"><?php echo $sn++ ?></td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class=" w-[50px] aspect-square rounded overflow-hidden">
-                                            <img src="<?php echo $property['images'] ? './includes/property/' . explode(', ', $property['images'])[0] : './assets/showcase.png' ?>" class=" w-full h-full object-cover" alt="">
+                                        <div class=" w-[50px] aspect-square rounded overflow-hidden relative">
+                                            <?php 
+                                            // Get first media file (could be image or video)
+                                            $firstMedia = null;
+                                            $isVideo = false;
+                                            
+                                            if ($property['images']) {
+                                                $firstMedia = explode(', ', $property['images'])[0];
+                                                // Check if it's a video file
+                                                $videoExtensions = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm', 'mkv'];
+                                                $fileExtension = strtolower(pathinfo($firstMedia, PATHINFO_EXTENSION));
+                                                $isVideo = in_array($fileExtension, $videoExtensions);
+                                            }
+                                            
+                                            if ($firstMedia && $isVideo) { ?>
+                                                <video class=" w-full h-full object-cover" muted>
+                                                    <source src="<?php echo './includes/property/' . htmlspecialchars($firstMedia) ?>" type="video/<?php echo $fileExtension ?>">
+                                                </video>
+                                                <div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
+                                                    <i class="fa-solid fa-play text-white text-lg"></i>
+                                                </div>
+                                            <?php } elseif ($firstMedia) { ?>
+                                                <img src="<?php echo './includes/property/' . htmlspecialchars($firstMedia) ?>" class=" w-full h-full object-cover" alt="">
+                                            <?php } else { ?>
+                                                <img src="./assets/showcase.png" class=" w-full h-full object-cover" alt="">
+                                            <?php } ?>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">

@@ -16,6 +16,16 @@ if (!$property) {
     exit;
 }
 
+if ($property['type'] !== 'rental') {
+    header('Location: ./dashboard_properties.php');
+    exit;
+}
+
+if ($property['availability'] !== 'vacant') {
+    header('Location: ./dashboard_properties.php');
+    exit;
+}
+
 $users = fetchUsers($pdo);
 
 ob_end_flush();
@@ -47,10 +57,17 @@ ob_end_flush();
                         <?php } ?>
                     </div>
                     <div class=" flex flex-col items-start gap-1 my-2">
-                        <label for="rent_start" class=" text-sm font-semibold text-gray-500">Rent Start</label>
-                        <input type="date" name="rent_start" id="rent_start" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
-                        <?php if (isset($_SESSION['errors']['tenant'])) { ?>
-                            <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['tenant'] ?></div>
+                        <label for="rent_start_2" class=" text-sm font-semibold text-gray-500">Rent Start</label>
+                        <input type="date" name="rent_start_2" id="rent_start_2" value="<?php echo (isset($_SESSION['input_data']['rent_start_2']) && !isset($_SESSION['errors']['rent_start_2'])) ? htmlspecialchars($_SESSION['input_data']['rent_start_2']) : '' ?>" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
+                        <?php if (isset($_SESSION['errors']['rent_start_2'])) { ?>
+                            <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['rent_start_2'] ?></div>
+                        <?php } ?>
+                    </div>
+                    <div class=" flex flex-col items-start gap-1 my-2">
+                        <label for="rent_end_2" class=" text-sm font-semibold text-gray-500">Rent End</label>
+                        <input type="date" name="rent_end_2" id="rent_end_2" value="<?php echo (isset($_SESSION['input_data']['rent_end_2']) && !isset($_SESSION['errors']['rent_end_2'])) ? htmlspecialchars($_SESSION['input_data']['rent_end_2']) : '' ?>" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
+                        <?php if (isset($_SESSION['errors']['rent_end_2'])) { ?>
+                            <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['rent_end_2'] ?></div>
                         <?php } ?>
                     </div>
                     <div class=" mt-4 flex justify-center">
@@ -65,6 +82,7 @@ ob_end_flush();
                 <form action="./includes/tenant/create.php" method="post" class=" app-form w-full mt-4">
                     <input type="hidden" name="password" value="123456">
                     <input type="hidden" name="property_id" value="<?php echo htmlspecialchars($property['property_id']) ?>">
+                    <input type="hidden" name="landlord_id" value="<?php echo htmlspecialchars($property['landlord_id']) ?>">
                     <div class=" flex flex-col items-start gap-1 my-2">
                         <label for="first_name" class=" text-sm font-semibold text-gray-500">First Name</label>
                         <input type="text" name="first_name" id="first_name" value="<?php echo (isset($_SESSION['input_data']['first_name']) && !isset($_SESSION['errors']['first_name'])) ? htmlspecialchars($_SESSION['input_data']['first_name']) : '' ?>" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
@@ -91,6 +109,20 @@ ob_end_flush();
                         <input type="text" name="phone" id="phone" value="<?php echo (isset($_SESSION['input_data']['phone']) && !isset($_SESSION['errors']['phone'])) ? htmlspecialchars($_SESSION['input_data']['phone']) : '' ?>" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
                         <?php if (isset($_SESSION['errors']['phone'])) { ?>
                             <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['phone'] ?></div>
+                        <?php } ?>
+                    </div>
+                    <div class=" flex flex-col items-start gap-1 my-2">
+                        <label for="rent_start" class=" text-sm font-semibold text-gray-500">Rent Start</label>
+                        <input type="date" name="rent_start" id="rent_start" value="<?php echo (isset($_SESSION['input_data']['rent_start']) && !isset($_SESSION['errors']['rent_start'])) ? htmlspecialchars($_SESSION['input_data']['rent_start']) : '' ?>" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
+                        <?php if (isset($_SESSION['errors']['rent_start'])) { ?>
+                            <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['rent_start'] ?></div>
+                        <?php } ?>
+                    </div>
+                    <div class=" flex flex-col items-start gap-1 my-2">
+                        <label for="rent_end" class=" text-sm font-semibold text-gray-500">Rent End</label>
+                        <input type="date" name="rent_end" id="rent_end" value="<?php echo (isset($_SESSION['input_data']['rent_end']) && !isset($_SESSION['errors']['rent_end'])) ? htmlspecialchars($_SESSION['input_data']['rent_end']) : '' ?>" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">
+                        <?php if (isset($_SESSION['errors']['rent_end'])) { ?>
+                            <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['rent_end'] ?></div>
                         <?php } ?>
                     </div>
                     <div class=" mt-4 flex justify-center">

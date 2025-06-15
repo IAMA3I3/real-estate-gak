@@ -3,6 +3,7 @@ include './components/header.php';
 userAccess(['admin']);
 
 $landlords = fetchLandlords($pdo);
+$locations = fetchAll($pdo, "locations");
 ?>
 
 <!-- container -->
@@ -17,15 +18,15 @@ $landlords = fetchLandlords($pdo);
 
                     <!-- Preview Container -->
                     <div id="file-preview" class="grid grid-cols-3 gap-2 border-2 border-gray-300 bg-gray-100 p-2 rounded overflow-hidden min-h-[100px]">
-                        <!-- Images will show here -->
+                        <!-- Images and videos will show here -->
                     </div>
 
                     <!-- Upload button -->
                     <div class="my-2 flex flex-col gap-1">
                         <button type="button" id="addImageBtn" class="block w-full py-2 px-6 text-center text-sm font-semibold border-2 border-app-primary text-app-primary cursor-pointer rounded hover:bg-app-primary hover:text-white active:scale-95">
-                            Upload Images
+                            Upload Images & Videos
                         </button>
-                        <input type="file" class="hidden" name="files[]" id="fileInput" accept="image/jpeg,image/png,image/gif,image/webp" multiple>
+                        <input type="file" class="hidden" name="files[]" id="fileInput" accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/avi,video/mov,video/wmv,video/flv,video/webm" multiple>
                         <?php if (isset($_SESSION['errors']['file_upload'])) { ?>
                             <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['file_upload']) ?></div>
                         <?php } ?>
@@ -55,7 +56,7 @@ $landlords = fetchLandlords($pdo);
                         <select name="landlord" id="landlord" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
                             <option value="">Select Landlord</option>
                             <?php foreach ($landlords as $landlord) { ?>
-                                <option <?php echo isset($_SESSION['input_data']['landlord']) && !isset($_SESSION['errors']['landlord']) && $_SESSION['input_data']['landlord'] === htmlspecialchars($landlord['user_id']) ? 'selected' : '' ?> value="<?php echo htmlspecialchars($landlord['user_id']) ?>"><?php echo htmlspecialchars($landlord['first_name']) ?> <?php echo htmlspecialchars($landlord['first_name']) ?> - <?php echo htmlspecialchars($landlord['email']) ?></option>
+                                <option <?php echo isset($_SESSION['input_data']['landlord']) && !isset($_SESSION['errors']['landlord']) && $_SESSION['input_data']['landlord'] === htmlspecialchars($landlord['user_id']) ? 'selected' : '' ?> value="<?php echo htmlspecialchars($landlord['user_id']) ?>"><?php echo htmlspecialchars($landlord['first_name']) ?> <?php echo htmlspecialchars($landlord['last_name']) ?> - <?php echo htmlspecialchars($landlord['email']) ?></option>
                             <?php } ?>
                         </select>
                         <?php if (isset($_SESSION['errors']['landlord'])) { ?>
@@ -72,12 +73,44 @@ $landlords = fetchLandlords($pdo);
                         <?php } ?>
                     </div>
 
+                    <!-- location -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="location" class="text-sm font-semibold text-gray-500">Location</label>
+                        <select name="location" id="location" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                            <option value="">Select Location</option>
+                            <?php foreach ($locations as $location) { ?>
+                                <option <?php echo isset($_SESSION['input_data']['location']) && !isset($_SESSION['errors']['location']) && $_SESSION['input_data']['location'] === htmlspecialchars($location['location_id']) ? 'selected' : '' ?> value="<?php echo htmlspecialchars($location['location_id']) ?>"><?php echo htmlspecialchars($location['name']) ?></option>
+                            <?php } ?>
+                        </select>
+                        <?php if (isset($_SESSION['errors']['location'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['location']) ?></div>
+                        <?php } ?>
+                    </div>
+
                     <!-- address -->
                     <div class="my-2 flex flex-col gap-1 items-start">
                         <label for="address" class="text-sm font-semibold text-gray-500">Address</label>
                         <textarea name="address" id="address" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['address']) && !isset($_SESSION['errors']['address'])) ? htmlspecialchars($_SESSION['input_data']['address']) : '' ?></textarea>
                         <?php if (isset($_SESSION['errors']['address'])) { ?>
                             <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['address']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- latitude -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="latitude" class="text-sm font-semibold text-gray-500">Latitude</label>
+                        <input type="text" name="latitude" id="latitude" value="<?php echo (isset($_SESSION['input_data']['latitude']) && !isset($_SESSION['errors']['latitude'])) ? htmlspecialchars($_SESSION['input_data']['latitude']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['latitude'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['latitude']) ?></div>
+                        <?php } ?>
+                    </div>
+
+                    <!-- longitude -->
+                    <div class="my-2 flex flex-col gap-1 items-start">
+                        <label for="longitude" class="text-sm font-semibold text-gray-500">Longitude</label>
+                        <input type="text" name="longitude" id="longitude" value="<?php echo (isset($_SESSION['input_data']['longitude']) && !isset($_SESSION['errors']['longitude'])) ? htmlspecialchars($_SESSION['input_data']['longitude']) : '' ?>" class="w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['longitude'])) { ?>
+                            <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['longitude']) ?></div>
                         <?php } ?>
                     </div>
 
@@ -190,7 +223,9 @@ unset($_SESSION['input_data']);
 
         fileInput.addEventListener('change', (event) => {
             const files = Array.from(event.target.files);
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            const allowedImageTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+            const allowedVideoTypes = ['video/mp4', 'video/avi', 'video/mov', 'video/wmv', 'video/flv', 'video/webm'];
+            const allowedTypes = [...allowedImageTypes, ...allowedVideoTypes];
 
             // Clear previous previews
             filePreview.innerHTML = '';
@@ -202,32 +237,63 @@ unset($_SESSION['input_data']);
 
             files.forEach(file => {
                 if (!allowedTypes.includes(file.type)) {
-                    alert('Only image files are allowed (JPEG, PNG, GIF, WebP)');
+                    alert('Only image and video files are allowed (JPEG, PNG, GIF, WebP, MP4, AVI, MOV, WMV, FLV, WebM)');
                     return;
                 }
 
-                if (file.size > 100 * 1024 * 1024) {
-                    alert('Each file must be under 100MB');
+                if (file.size > 500 * 1024 * 1024) { // Increased to 500MB for videos
+                    alert('Each file must be under 500MB');
                     return;
                 }
+
+                const fileContainer = document.createElement('div');
+                fileContainer.className = 'relative';
 
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    const imgContainer = document.createElement('div');
-                    imgContainer.className = 'relative';
+                    if (allowedImageTypes.includes(file.type)) {
+                        // Handle image files
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'w-full h-[100px] object-cover rounded';
+                        fileContainer.appendChild(img);
+                    } else if (allowedVideoTypes.includes(file.type)) {
+                        // Handle video files
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.className = 'w-full h-[100px] object-cover rounded';
+                        video.controls = false;
+                        video.muted = true;
+                        
+                        // Add play icon overlay
+                        const playIcon = document.createElement('div');
+                        playIcon.innerHTML = '▶';
+                        playIcon.className = 'absolute inset-0 flex items-center justify-center text-white text-2xl bg-black bg-opacity-30 rounded cursor-pointer hover:bg-opacity-50';
+                        playIcon.addEventListener('click', () => {
+                            if (video.paused) {
+                                video.play();
+                                playIcon.style.display = 'none';
+                            }
+                        });
+                        
+                        video.addEventListener('click', () => {
+                            if (!video.paused) {
+                                video.pause();
+                                playIcon.style.display = 'flex';
+                            }
+                        });
+                        
+                        fileContainer.appendChild(video);
+                        fileContainer.appendChild(playIcon);
+                    }
 
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'w-full h-[100px] object-cover rounded';
-
-                    // Optional: Add file name overlay
+                    // Add file name overlay
                     const fileName = document.createElement('div');
                     fileName.textContent = file.name;
                     fileName.className = 'absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b truncate';
 
-                    imgContainer.appendChild(img);
-                    imgContainer.appendChild(fileName);
-                    filePreview.appendChild(imgContainer);
+                    fileContainer.appendChild(fileName);
+                    filePreview.appendChild(fileContainer);
                 };
                 reader.readAsDataURL(file);
             });

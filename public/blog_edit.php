@@ -29,7 +29,7 @@ ob_end_flush();
         <!-- main -->
         <div class=" p-4">
             <div class=" mt-4x bg-white p-4 rounded shadow w-full max-w-[500px] m-auto">
-                <div class=" text-2xl text-center">Add New Blog</div>
+                <div class=" text-2xl text-center">Edit Blog</div>
                 <form action="includes/blog/update.php" method="POST" enctype="multipart/form-data" class=" app-form mt-4">
                     <input type="hidden" name="blog_id" value="<?php echo htmlspecialchars($blog['blog_id']) ?>">
                     <div id="file-preview" class=" w-full aspect-[3/1] rounded border-2 border-gray-300 bg-gray-100 overflow-hidden">

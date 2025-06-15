@@ -1,5 +1,140 @@
 <?php
 
+// update location
+function updateLocation($pdo, $location_id, $image, $name)
+{
+    if ($image) {
+        $query = "UPDATE locations SET image = :image, name = :name WHERE location_id = :location_id;";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam("image", $image);
+    } else {
+        $query = "UPDATE locations SET name = :name WHERE location_id = :location_id;";
+        $stmt = $pdo->prepare($query);
+    }
+    $stmt->bindParam("location_id", $location_id);
+    $stmt->bindParam("name", $name);
+    $stmt->execute();
+}
+
+// edit location error
+function editLocationError($pdo, $location_id, $name)
+{
+    $errors = [];
+
+    $name = trim($name);
+
+    if (empty($name)) {
+        $errors['name'] = "Location is required";
+    }
+    if (!empty($name) && takenByOther($pdo, "locations", "name", $name, "location_id", $location_id)) {
+        $errors['name'] = "Location already exists";
+    }
+
+    return $errors;
+}
+
+// add location
+function addLocation($pdo, $location_id, $image, $name)
+{
+    $query = "INSERT INTO locations (location_id, image, name) VALUES (:location_id, :image, :name);";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam("location_id", $location_id);
+    $stmt->bindParam("image", $image);
+    $stmt->bindParam("name", $name);
+    $stmt->execute();
+}
+
+// add location error
+function addLocationError($pdo, $name)
+{
+    $errors = [];
+
+    $name = trim($name);
+
+    if (empty($name)) {
+        $errors['name'] = "Location is required";
+    }
+    if (!empty($name) && taken($pdo, "locations", "name", $name)) {
+        $errors['name'] = "Location already exists";
+    }
+
+    return $errors;
+}
+
+// Function to add document to database
+function addDocument($pdo, $document_id, $rent_id, $name, $document)
+{
+    $query = "INSERT INTO documents (document_id, rent_id, name, document) VALUES (:document_id, :rent_id, :name, :document);";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam("document_id", $document_id);
+    $stmt->bindParam("rent_id", $rent_id);
+    $stmt->bindParam("name", $name);
+    $stmt->bindParam("document", $document);
+    $stmt->execute();
+}
+
+// Validation function for document data
+function validateDocumentData($name, $filePath)
+{
+    $errors = [];
+
+    // Validate name
+    if (empty(trim($name))) {
+        $errors['name'] = "Document name is required.";
+    } elseif (strlen(trim($name)) < 3) {
+        $errors['name'] = "Document name must be at least 3 characters long.";
+    } elseif (strlen(trim($name)) > 255) {
+        $errors['name'] = "Document name must not exceed 255 characters.";
+    }
+
+    // Validate file path
+    if (empty($filePath)) {
+        $errors['file'] = "Document file is required.";
+    }
+
+    return empty($errors) ? false : $errors;
+}
+
+// add property
+function updateProperty($pdo, $property_id, $images, $name, $description, $landlord_id, $price, $location_id, $address, $latitude, $longitude, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features)
+{
+    $query = "UPDATE properties SET images = :images, name = :name, description = :description, landlord_id = :landlord_id, price = :price, location_id = :location_id, address = :address, latitude = :latitude, longitude = :longitude, status = :status, type = :type, size = :size, livingroom = :livingroom, bedroom = :bedroom, bathroom = :bathroom, property_condition = :property_condition, features = :features WHERE property_id = :property_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam("property_id", $property_id);
+    $stmt->bindParam("images", $images);
+    $stmt->bindParam("name", $name);
+    $stmt->bindParam("description", $description);
+    $stmt->bindParam("landlord_id", $landlord_id);
+    $stmt->bindParam("price", $price);
+    $stmt->bindParam("location_id", $location_id);
+    $stmt->bindParam("address", $address);
+    $stmt->bindParam("latitude", $latitude);
+    $stmt->bindParam("longitude", $longitude);
+    $stmt->bindParam("status", $status);
+    $stmt->bindParam("type", $type);
+    $stmt->bindParam("size", $size);
+    $stmt->bindParam("livingroom", $livingroom);
+    $stmt->bindParam("bedroom", $bedroom);
+    $stmt->bindParam("bathroom", $bathroom);
+    $stmt->bindParam("property_condition", $property_condition);
+    $stmt->bindParam("features", $features);
+    $stmt->execute();
+}
+
+// add rent
+function addRent($pdo, $rent_id, $property_id, $landlord_id, $tenant_id, $rent_start, $rent_end)
+{
+    $query = "INSERT INTO rents (rent_id, property_id, landlord_id, tenant_id, rent_start, rent_end) VALUES (:rent_id, :property_id, :landlord_id, :tenant_id, :rent_start, :rent_end);";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam("rent_id", $rent_id);
+    $stmt->bindParam("property_id", $property_id);
+    $stmt->bindParam("landlord_id", $landlord_id);
+    $stmt->bindParam("tenant_id", $tenant_id);
+    $stmt->bindParam("rent_start", $rent_start);
+    $stmt->bindParam("rent_end", $rent_end);
+    $stmt->execute();
+}
+
 // update a column
 function updateColumn($pdo, $db_table, $item_id, $id_column, $update_column, $value)
 {
@@ -21,9 +156,9 @@ function fetchUsers($pdo)
 }
 
 // add property
-function addProperty($pdo, $property_id, $images, $name, $description, $landlord_id, $price, $address, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features)
+function addProperty($pdo, $property_id, $images, $name, $description, $landlord_id, $price, $location_id, $address, $latitude, $longitude, $status, $type, $size, $livingroom, $bedroom, $bathroom, $property_condition, $features)
 {
-    $query = "INSERT INTO properties (property_id, images, name, description, landlord_id, price, address, status, type, size, livingroom, bedroom, bathroom, property_condition, features) VALUES (:property_id, :images, :name, :description, :landlord_id, :price, :address, :status, :type, :size, :livingroom, :bedroom, :bathroom, :property_condition, :features);";
+    $query = "INSERT INTO properties (property_id, images, name, description, landlord_id, price, location_id, address, latitude, longitude, status, type, size, livingroom, bedroom, bathroom, property_condition, features) VALUES (:property_id, :images, :name, :description, :landlord_id, :price, :location_id, :address, :latitude, :longitude, :status, :type, :size, :livingroom, :bedroom, :bathroom, :property_condition, :features);";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam("property_id", $property_id);
     $stmt->bindParam("images", $images);
@@ -31,7 +166,10 @@ function addProperty($pdo, $property_id, $images, $name, $description, $landlord
     $stmt->bindParam("description", $description);
     $stmt->bindParam("landlord_id", $landlord_id);
     $stmt->bindParam("price", $price);
+    $stmt->bindParam("location_id", $location_id);
     $stmt->bindParam("address", $address);
+    $stmt->bindParam("latitude", $latitude);
+    $stmt->bindParam("longitude", $longitude);
     $stmt->bindParam("status", $status);
     $stmt->bindParam("type", $type);
     $stmt->bindParam("size", $size);
@@ -44,7 +182,7 @@ function addProperty($pdo, $property_id, $images, $name, $description, $landlord
 }
 
 // add property errors
-function addPropertyErrors($name, $description, $landlord_id, $price, $address, $status, $type, $size)
+function addPropertyErrors($name, $description, $landlord_id, $price, $address, $latitude, $longitude, $status, $type, $size)
 {
     $errors = [];
 
@@ -69,6 +207,12 @@ function addPropertyErrors($name, $description, $landlord_id, $price, $address, 
     }
     if (empty($address)) {
         $errors['address'] = "Address is required";
+    }
+    if (!empty($latitude) && (!is_numeric($latitude) || $latitude < -90 || $latitude > 90)) {
+        $errors['latitude'] = "Invalid latitude";
+    }
+    if (!empty($longitude) && (!is_numeric($longitude) || $longitude < -90 || $longitude > 90)) {
+        $errors['longitude'] = "Invalid longitude";
     }
     if (empty($status)) {
         $errors['status'] = "Status is required";
@@ -257,6 +401,23 @@ function takenByOther($pdo, $db_table, $unique_column, $value, $id_column, $item
     }
 }
 
+// taken by other
+function taken($pdo, $db_table, $unique_column, $value)
+{
+    $query = "SELECT * FROM $db_table WHERE $unique_column = :value;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':value', $value);
+    $stmt->execute();
+
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // fetch items by there id with condition
 function fetchByIdWithCondition($pdo, $item_id, $db_table, $id_column, $condition_column, $condition_value)
 {
@@ -267,6 +428,18 @@ function fetchByIdWithCondition($pdo, $item_id, $db_table, $id_column, $conditio
     $stmt->execute();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return $row;
+}
+
+// fetch all items by there id with condition
+function fetchAllByIdWithCondition($pdo, $item_id, $db_table, $id_column, $condition_column, $condition_value)
+{
+    $query = "SELECT * FROM $db_table WHERE $id_column = :item_id AND $condition_column = :condition_value;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':item_id', $item_id);
+    $stmt->bindParam(':condition_value', $condition_value);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $result;
 }
 
 // fetch items by there id

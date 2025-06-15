@@ -117,6 +117,52 @@ include './components/footer.php';
 ?>
 
 
+<!-- swiper -->
+<div class=" h-[80vh] relative">
+    <div class=" swiper showcaseSwiper w-full h-full">
+        <div class="swiper-wrapper">
+            <!-- slide item -->
+            <?php foreach ($showcaseSlides as $slide) { ?>
+                <div class="swiper-slide">
+                    <div class=" h-full w-full relative overflow-hidden">
+                        <img src="<?php echo $slide['img'] ?>" class=" w-full h-full object-cover" />
+                        <div class=" absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-black/50 text-white">
+                            <div class=" container h-full">
+                                <div class=" pl-0 md:pl-36 pr-32 md:pr-36 h-full">
+                                    <div class=" h-full flex flex-col items-start justify-center">
+                                        <div class=" text-2xl md:text-5xl font-bold text-app-primary font-playfair"><?php echo htmlspecialchars($slide['text']) ?></div>
+                                        <div class=" mt-4 text-xl md:text-3xl font-bold"><?php echo htmlspecialchars($slide['subtext']) ?></div>
+                                        <a href="<?php echo $slide['button_url'] ?>" class=" mt-6 flex items-center justify-between sm:justify-normal md:text-lg gap-2 text-app-primary font-semibold hover:text-white transition border py-3 px-5 border-app-primary group bg-transparent relative">
+                                            <div class=" absolute top-0 left-0 bg-app-primary rounded-r-md h-full w-0 group-hover:w-[60%] transition-all duration-500"></div>
+                                            <div class=" absolute top-0 right-0 bg-app-primary rounded-l-md h-full w-0 group-hover:w-[60%] transition-all duration-500"></div>
+                                            <span class=" z-10"><?php echo $slide['button_name'] ?></span>
+                                            <i class="fa-solid fa-arrow-right z-10"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+        <div class=" absolute top-[50%] -translate-y-[50%] left-0 z-10 text-white hidden md:flex items-center gap-8 rotate-90">
+            <div class="">FOLLOW US</div>
+            <div class=" h-[2px] w-10 bg-white"></div>
+            <div class=" flex items-center gap-4">
+                <a href="#" class=" hover:text-app-primary -rotate-90"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class=" hover:text-app-primary -rotate-90"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" class=" hover:text-app-primary -rotate-90"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        <div class=" absolute top-[50%] -translate-y-[50%] right-0 z-10 text-white flex items-center gap-8 rotate-90">
+            <button class="showcase-prev hover:text-app-primary">PREV</button>
+            <div class=" h-[2px] w-10 bg-white"></div>
+            <button class="showcase-next hover:text-app-primary">NEXT</button>
+        </div>
+    </div>
+</div>
+
 
 <div class=" mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
     <?php foreach ([0, 0, 0, 0, 0, 0, 0, 0] as $blog) { ?>

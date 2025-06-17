@@ -44,6 +44,8 @@ ob_end_flush();
             <div class=" mt-4 rounded shadow bg-white border p-4 w-full max-w-[700px] m-auto">
                 <div class=" text-lg font-semibold">Add From Users</div>
                 <form action="./includes/tenant/add.php" method="post" class=" app-form w-full mt-4">
+                    <input type="hidden" name="property_id" value="<?php echo htmlspecialchars($property['property_id']) ?>">
+                    <input type="hidden" name="landlord_id" value="<?php echo htmlspecialchars($property['landlord_id']) ?>">
                     <div class=" flex flex-col items-start gap-1 my-2">
                         <label for="tenant" class=" text-sm font-semibold text-gray-500">Tenant</label>
                         <select name="tenant" id="tenant" class=" w-full py-2 px-4 rounded outline-none bg-app-secondary/15 focus:bg-app-secondary/25">

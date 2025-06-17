@@ -21,7 +21,7 @@ $mediaFiles = [];
 if (!empty($property['images'])) {
     $mediaFiles = explode(', ', trim($property['images']));
     // Remove any empty entries
-    $mediaFiles = array_filter($mediaFiles, function($item) {
+    $mediaFiles = array_filter($mediaFiles, function ($item) {
         return !empty(trim($item));
     });
 }
@@ -60,7 +60,7 @@ ob_end_flush();
         <div class=" w-full max-w-[800px] m-auto lg:flex-1 p-2 rounded-lg bg-white">
             <?php if (!empty($mediaFiles)) { ?>
                 <div id="property-pic" data-index="0" class=" relative w-full rounded-md aspect-[3/2] overflow-hidden group cursor-pointer">
-                    <?php 
+                    <?php
                     $firstMedia = $mediaFiles[0];
                     $isVideo = preg_match('/\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i', $firstMedia);
                     ?>
@@ -80,7 +80,7 @@ ob_end_flush();
                     <?php } ?>
                 </div>
                 <div class=" mt-2 grid grid-cols-4 gap-2">
-                    <?php for ($i = 0; $i < count(array_slice($mediaFiles, 0, 4)); $i++) { 
+                    <?php for ($i = 0; $i < count(array_slice($mediaFiles, 0, 4)); $i++) {
                         $mediaFile = $mediaFiles[$i];
                         $isVideoThumb = preg_match('/\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i', $mediaFile);
                     ?>
@@ -103,7 +103,7 @@ ob_end_flush();
                 </div>
                 <!-- Hidden thumbnails for all media files -->
                 <div class="hidden">
-                    <?php for ($i = 0; $i < count($mediaFiles); $i++) { 
+                    <?php for ($i = 0; $i < count($mediaFiles); $i++) {
                         $mediaFile = $mediaFiles[$i];
                         $isVideoThumb = preg_match('/\.(mp4|avi|mov|wmv|flv|webm|mkv)$/i', $mediaFile);
                     ?>
@@ -135,6 +135,25 @@ ob_end_flush();
         <div class=" mt-2"><?php echo nl2br(htmlspecialchars($property['description'])) ?></div>
     </div>
 </div>
+
+<!-- location -->
+<?php if ($property['latitude'] || $property['longitude']) { ?>
+    <div class=" py-16">
+        <div class=" container">
+            <div class=" text-xl font-bold font-playfair">Location</div>
+            <div class=" mt-4 h-[300px] rounded-lg overflow-hidden">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.4037829718944!2d<?php echo htmlspecialchars($property['longitude']); ?>!3d<?php echo htmlspecialchars($property['latitude']); ?>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM40zNy40NiJOIDc0wrAwMC4yMiJX!5e0!3m2!1sen!2sus!4v1629794729807"
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+<?php } ?>
 
 <!-- details -->
 <div class=" py-16">
@@ -186,17 +205,17 @@ ob_end_flush();
     <div class=" container">
         <div class=" text-xl font-bold font-playfair">Features</div>
         <div class=" mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <?php if (!empty($property['features'])) { 
+            <?php if (!empty($property['features'])) {
                 $features = explode(',', $property['features']);
                 foreach ($features as $feature) {
                     $feature = trim($feature);
                     if (!empty($feature)) {
             ?>
-                <div class=" flex gap-2 items-center">
-                    <div class=" text-app-primary"><i class="fa-regular fa-circle-check"></i></div>
-                    <div class=""><?php echo htmlspecialchars($feature) ?></div>
-                </div>
-            <?php 
+                        <div class=" flex gap-2 items-center">
+                            <div class=" text-app-primary"><i class="fa-regular fa-circle-check"></i></div>
+                            <div class=""><?php echo htmlspecialchars($feature) ?></div>
+                        </div>
+                <?php
                     }
                 }
             } else { ?>
@@ -235,7 +254,7 @@ ob_end_flush();
 </div>
 
 <!-- featured properties -->
- <div class=" py-16 bg-gray-200">
+<div class=" py-16 bg-gray-200">
     <div class=" container">
         <div class=" w-full max-w-[600px] m-auto text-center">
             <div class=" font-semibold">Featured Properties</div>
@@ -246,12 +265,12 @@ ob_end_flush();
             <div class=" mt-8 w-full">
                 <div class=" relative swiper primary-swiper">
                     <div class=" swiper-wrapper">
-                        <?php foreach (array_slice($properties, 0, 6) as $featuredProperty) { 
+                        <?php foreach (array_slice($properties, 0, 6) as $featuredProperty) {
                             // Get first media for featured property
                             $featuredMediaFiles = [];
                             if (!empty($featuredProperty['images'])) {
                                 $featuredMediaFiles = explode(', ', trim($featuredProperty['images']));
-                                $featuredMediaFiles = array_filter($featuredMediaFiles, function($item) {
+                                $featuredMediaFiles = array_filter($featuredMediaFiles, function ($item) {
                                     return !empty(trim($item));
                                 });
                             }

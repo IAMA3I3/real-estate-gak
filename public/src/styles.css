@@ -1090,10 +1090,6 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.mt-16 {
-  margin-top: 4rem;
-}
-
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -2117,11 +2113,6 @@ body {
   border-color: rgb(229 231 235 / var(--tw-divide-opacity));
 }
 
-.divide-gray-300 > :not([hidden]) ~ :not([hidden]) {
-  --tw-divide-opacity: 1;
-  border-color: rgb(209 213 219 / var(--tw-divide-opacity));
-}
-
 .divide-gray-600 > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(75 85 99 / var(--tw-divide-opacity));
@@ -2560,10 +2551,6 @@ body {
   border-color: rgb(193 183 154 / var(--tw-border-opacity));
 }
 
-.border-app-primary\/15 {
-  border-color: rgb(193 183 154 / 0.15);
-}
-
 .border-app-primary\/20 {
   border-color: rgb(193 183 154 / 0.2);
 }
@@ -2634,10 +2621,6 @@ body {
 
 .bg-app-primary\/20 {
   background-color: rgb(193 183 154 / 0.2);
-}
-
-.bg-app-primary\/5 {
-  background-color: rgb(193 183 154 / 0.05);
 }
 
 .bg-app-primary\/70 {
@@ -2956,6 +2939,11 @@ body {
   padding: 2rem;
 }
 
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -2979,6 +2967,16 @@ body {
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+}
+
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.py-0\.5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
 }
 
 .py-1 {
@@ -3011,21 +3009,6 @@ body {
   padding-bottom: 2rem;
 }
 
-.px-1 {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-}
-
-.py-0 {
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-.py-0\.5 {
-  padding-top: 0.125rem;
-  padding-bottom: 0.125rem;
-}
-
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -3044,10 +3027,6 @@ body {
 
 .pr-4 {
   padding-right: 1rem;
-}
-
-.pt-2 {
-  padding-top: 0.5rem;
 }
 
 .text-left {
@@ -3927,10 +3906,6 @@ body {
 .focus\:border-app-primary:focus {
   --tw-border-opacity: 1;
   border-color: rgb(193 183 154 / var(--tw-border-opacity));
-}
-
-.focus\:bg-app-primary\/10:focus {
-  background-color: rgb(193 183 154 / 0.1);
 }
 
 .focus\:bg-app-primary\/20:focus {

@@ -7,7 +7,7 @@ include './components/showcase.php';
 // Get URL parameters
 $status = isset($_GET['status']) ? trim($_GET['status']) : null;
 $type = isset($_GET['type']) ? trim($_GET['type']) : null;
-$location_id = isset($_GET['location_id']) ? (int)$_GET['location_id'] : null;
+$location_id = isset($_GET['location_id']) ? $_GET['location_id'] : null;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
 // Build WHERE conditions array

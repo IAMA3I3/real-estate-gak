@@ -61,7 +61,7 @@ $blogs = fetchAllWithPagination($pdo, "blog", $limit, $page);
             <input type="text" name="page" value="<?php echo ($page > 1) ? $page - 1 : 1 ?>" id="prev-page" class=" hidden">
             <button title="previous" class=" py-2 px-4 rounded-md bg-app-secondary/70 hover:bg-app-secondary text-white active:scale-95"><i class="fa-solid fa-angle-left"></i></button>
         </form>
-        <div class=" text-sm font-semibold text-gray-500 text-center">Showing <?php echo (empty($blog)) ? '0' : htmlspecialchars(($page - 1) * $limit + 1) ?> to <?php echo htmlspecialchars(($page - 1) * $limit + 1) + (count($blog) - 1) ?> of <?php echo htmlspecialchars($blogCount) ?></div>
+        <div class=" text-sm font-semibold text-gray-500 text-center">Showing <?php echo (empty($blogs)) ? '0' : htmlspecialchars(($page - 1) * $limit + 1) ?> to <?php echo htmlspecialchars(($page - 1) * $limit + count($blogs)) ?> of <?php echo htmlspecialchars($blogCount) ?></div>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get">
             <input type="text" name="page" value="<?php echo ($page < $maxPage) ? $page + 1 : 1 ?>" id="next-page" class=" hidden">
             <button type="submit" title="next" class=" py-2 px-4 rounded-md bg-app-secondary/70 hover:bg-app-secondary text-white active:scale-95"><i class="fa-solid fa-angle-right"></i></button>

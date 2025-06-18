@@ -43,6 +43,11 @@ include './components/showcase.php';
     </div>
 </div>
 
+<div class=" bg-gray-200">
+<!-- team -->
+<?php include './components/team.php' ?>
+</div>
+
 <?php
 
 include './components/footer_main.php';

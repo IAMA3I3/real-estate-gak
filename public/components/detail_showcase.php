@@ -19,6 +19,12 @@ switch ($currentPage) {
         $backLink = './blog.php';
         break;
 
+    case 'team-bio.php':
+        $pageTitle = 'About';
+        $pageSubTitle = htmlspecialchars($member['name']);
+        $backLink = './about.php';
+        break;
+
     default:
         $pageTitle = '';
         $pageSubTitle = '';

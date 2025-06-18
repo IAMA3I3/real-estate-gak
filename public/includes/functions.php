@@ -1,5 +1,43 @@
 <?php
 
+// update team member
+function updateTeamMember($pdo, $id, $img, $name, $bio)
+{
+    $query = 'UPDATE team SET img = :img, name = :name, bio = :bio WHERE id = :id;';
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":id", $id);
+    $stmt->bindParam(":img", $img);
+    $stmt->bindParam(":name", $name);
+    $stmt->bindParam(":bio", $bio);
+    $stmt->execute();
+}
+
+// add team member
+function addTeamMember($pdo, $img, $name, $bio)
+{
+    $query = 'INSERT INTO team (img, name, bio) VALUES (:img, :name, :bio);';
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":img", $img);
+    $stmt->bindParam(":name", $name);
+    $stmt->bindParam(":bio", $bio);
+    $stmt->execute();
+}
+
+// add team member error
+function addTeamMemberError($name, $bio)
+{
+    $errors = [];
+
+    if (empty($name)) {
+        $errors['name'] = "Please enter name";
+    }
+    if (empty($bio)) {
+        $errors['bio'] = "Please enter bio";
+    }
+
+    return $errors;
+}
+
 // update location
 function updateLocation($pdo, $location_id, $image, $name)
 {

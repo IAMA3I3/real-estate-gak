@@ -399,8 +399,11 @@ $blogs = fetchAll($pdo, "blog");
     </div>
 </div>
 
+<!-- team -->
+<?php include './components/team.php' ?>
+
 <!-- blog -->
-<div class=" py-16">
+<div class=" py-16 bg-gray-200">
     <div class=" container">
         <div class=" w-full max-w-[600px] m-auto text-center">
             <div class=" font-semibold">OUR BLOG</div>

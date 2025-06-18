@@ -137,11 +137,12 @@ $sn = 1
                                     <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars(date('d F, Y', strtotime($rent['rent_end']))) ?></td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class=" flex gap-2 flex-nowrap *:text-nowrap">
-                                            <a href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white">Documents</a>
+                                            <a title="Documents" href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"><i class="fa-solid fa-file"></i></a>
+                                            <a title="Remark" href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white"><i class="fa-solid fa-comment-dots"></i></a>
                                             <form action="./includes/tenant/terminate.php" method="post" onsubmit="return confirm(`Proceed to terminate tenant`)">
                                                 <input type="hidden" name="rent_id" value="<?php echo htmlspecialchars($rent['rent_id']) ?>">
                                                 <input type="hidden" name="property_id" value="<?php echo htmlspecialchars($rent['property_id']) ?>">
-                                                <button type="submit" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white">Terminate</button>
+                                                <button title="Terminate" type="submit" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"><i class="fa-solid fa-calendar-xmark"></i></button>
                                             </form>
                                         </div>
                                     </td>

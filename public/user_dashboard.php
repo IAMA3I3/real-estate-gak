@@ -32,6 +32,7 @@ if ($rent) {
                         </div>
                         <div class=" flex gap-2 flex-nowrap *:text-nowrap">
                             <a href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white">Documents</a>
+                            <a href="./remarks.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white">Remarks</a>
                         </div>
                     </div>
                 </div>

@@ -134,6 +134,7 @@ $locations = fetchAll($pdo, "locations");
                             <option value="">Select Type</option>
                             <option <?php echo isset($_SESSION['input_data']['type']) && !isset($_SESSION['errors']['type']) && $_SESSION['input_data']['type'] === 'rental' ? 'selected' : '' ?> value="rental">Rental</option>
                             <option <?php echo isset($_SESSION['input_data']['type']) && !isset($_SESSION['errors']['type']) && $_SESSION['input_data']['type'] === 'sale' ? 'selected' : '' ?> value="sale">Sale</option>
+                            <option <?php echo isset($_SESSION['input_data']['type']) && !isset($_SESSION['errors']['type']) && $_SESSION['input_data']['type'] === 'project' ? 'selected' : '' ?> value="project">Project</option>
                         </select>
                         <?php if (isset($_SESSION['errors']['type'])) { ?>
                             <div class="text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['type']) ?></div>

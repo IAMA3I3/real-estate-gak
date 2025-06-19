@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         require_once '../session.php';
 
         updateColumn($pdo, "properties", $property_id, "property_id", "availability", "vacant");
-        deleteItem($pdo, "rents", "rent_id", $rent_id);
+        updateColumn($pdo, "rents", $rent_id, "rent_id", "status", "expired");
         $_SESSION['info'] = "Rent terminated";
         header('Location: ../../rent_history.php');
         $pdo = null;

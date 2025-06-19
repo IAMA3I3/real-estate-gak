@@ -76,7 +76,8 @@ $sn = 1
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars(date('d F, Y', strtotime($rent['rent_end']))) ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class=" flex gap-2 flex-nowrap *:text-nowrap">
-                                                <a href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white">Documents</a>
+                                                <a title="Documents" href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"><i class="fa-solid fa-file"></i></a>
+                                                <a title="Remark" href="./remarks.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white"><i class="fa-solid fa-comment-dots"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -104,7 +105,8 @@ $sn = 1
                                         <td class="px-6 py-4 whitespace-nowrap"><?php echo htmlspecialchars(date('d F, Y', strtotime($rent['rent_end']))) ?></td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class=" flex gap-2 flex-nowrap *:text-nowrap">
-                                                <a href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white">Documents</a>
+                                                <a title="Documents" href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"><i class="fa-solid fa-file"></i></a>
+                                                <a title="Remark" href="./remarks.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white"><i class="fa-solid fa-comment-dots"></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -138,7 +140,8 @@ $sn = 1
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class=" flex gap-2 flex-nowrap *:text-nowrap">
                                             <a title="Documents" href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"><i class="fa-solid fa-file"></i></a>
-                                            <a title="Remark" href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white"><i class="fa-solid fa-comment-dots"></i></a>
+                                            <a title="Remark" href="./remarks.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white"><i class="fa-solid fa-comment-dots"></i></a>
+                                            <a title="Renew" href="./renew_rent.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white"><i class="fa-solid fa-repeat"></i></a>
                                             <form action="./includes/tenant/terminate.php" method="post" onsubmit="return confirm(`Proceed to terminate tenant`)">
                                                 <input type="hidden" name="rent_id" value="<?php echo htmlspecialchars($rent['rent_id']) ?>">
                                                 <input type="hidden" name="property_id" value="<?php echo htmlspecialchars($rent['property_id']) ?>">

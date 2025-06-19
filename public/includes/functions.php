@@ -1,5 +1,16 @@
 <?php
 
+// add remark for property
+function addPropertyRemark($pdo, $remark_id, $property_id, $comment)
+{
+    $query = "INSERT INTO remarks (remark_id, property_id, comment) VALUES (:remark_id, :property_id, :comment);";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":remark_id", $remark_id);
+    $stmt->bindParam(":property_id", $property_id);
+    $stmt->bindParam(":comment", $comment);
+    $stmt->execute();
+}
+
 // add remark
 function addRemark($pdo, $remark_id, $rent_id, $comment)
 {

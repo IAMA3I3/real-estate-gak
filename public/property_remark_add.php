@@ -1,0 +1,63 @@
+<?php
+ob_start();
+
+include './components/header.php';
+userAccess(['admin']);
+
+if (!isset($_GET['property_id'])) {
+    header('Location: ./dashboard_properties.php');
+    exit;
+}
+
+$property = fetchById($pdo, $_GET['property_id'], "properties", "property_id");
+
+if (!$property) {
+    header('Location: ./rent_history.php');
+    exit;
+}
+
+ob_end_flush();
+?>
+
+<!-- container -->
+<div class=" dashboard-container">
+    <!--  -->
+    <?php include './components/dashboard_side_nav.php' ?>
+    <!--  -->
+    <div class=" dashboard-main scrollbar transition-all duration-500">
+        <?php include './components/dashboard_top_bar.php' ?>
+        <!-- main -->
+        <div class=" p-4">
+            <div class=" flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="">
+                    <div class=" text-xl font-semibold"><?php echo htmlspecialchars($property['name']) ?></div>
+                </div>
+            </div>
+            <div class=" mt-4 bg-white p-4 rounded shadow w-full max-w-[500px] m-auto">
+                <form action="includes/remark/property_add.php" method="POST" class=" app-form mt-4">
+                    <input type="hidden" name="property_id" value="<?php echo htmlspecialchars($property['property_id']) ?>">
+                    <!--  -->
+                    <div class=" my-2 flex flex-col gap-1 items-start">
+                        <label for="remark" class=" text-sm font-semibold text-gray-500">Remark</label>
+                        <textarea name="remark" id="remark" class=" w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['input_data']['remark']) && !isset($_SESSION['errors']['remark'])) ? htmlspecialchars($_SESSION['input_data']['remark']) : '' ?></textarea>
+                        <?php if (isset($_SESSION['errors']['remark'])) { ?>
+                            <div class=" text-sm text-red-500 font-semibold"><?php echo htmlspecialchars($_SESSION['errors']['remark']) ?></div>
+                        <?php } ?>
+                    </div>
+                    <!--  -->
+                    <div class=" mt-4 flex justify-center">
+                        <button class=" py-2 px-6 rounded bg-app-secondary text-white hover:bg-app-primary">SUBMIT</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end container -->
+
+<?php
+
+include './components/footer.php';
+unset($_SESSION['errors']);
+unset($_SESSION['input_data']);
+?>

@@ -40,7 +40,10 @@ ob_end_flush();
         <?php include './components/dashboard_top_bar.php' ?>
         <!-- main -->
         <div class=" p-4">
-            <div class=" text-xl font-semibold"><?php echo htmlspecialchars($property['name']) ?></div>
+            <div class=" flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class=" text-xl font-semibold"><?php echo htmlspecialchars($property['name']) ?></div>
+                <a href="./property_remarks.php?id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white">Remarks</a>
+            </div>
             <!-- media -->
             <div class=" mt-4 rounded shadow bg-white p-4">
                 <div class=" text-lg font-semibold">Images & Videos</div>
@@ -159,25 +162,37 @@ ob_end_flush();
                 <div class=""><span class=" font-semibold">Upload:</span> <span class=" capitalize"><?php echo htmlspecialchars(date('d F, Y', strtotime($property['created_at']))) ?></span></div>
             </div>
             <!-- tenatnt -->
-            <div class=" mt-4 rounded shadow bg-white p-4">
-                <div class=" flex justify-between items-center">
-                    <div class=" text-lg font-semibold">Tenant</div>
-                    <a href="./rent_history.php?property_id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white">Rent History</a>
-                </div>
-                <?php if ($tenant) { ?>
-                    <div class=" mt-4"><?php echo htmlspecialchars($tenant['first_name']) ?> <?php echo htmlspecialchars($tenant['last_name']) ?></div>
-                    <div class=" text-sm font-semibold"><?php echo htmlspecialchars($tenant['email']) ?></div>
-                    <div class=" mt-2"><span class=" font-semibold">Rent Start:</span> <span class=" capitalize"><?php echo htmlspecialchars(date('d F, Y', strtotime($rent['rent_start']))) ?></span></div>
-                    <div class=" mt-2"><span class=" font-semibold">Rent End:</span> <span class=" capitalize"><?php echo htmlspecialchars(date('d F, Y', strtotime($rent['rent_end']))) ?></span></div>
-                <?php } else { ?>
-                    <div class=" mt-4 text-center font-bold text-3xl text-gray-400">No Active Tenant</div>
-                    <?php if ($_SESSION['user']['user_type'] === 'admin' && $property['type'] === 'rental') { ?>
-                        <div class=" mt-4 text-center">
-                            <a href="./add_tenant.php?property_id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" font-semibold text-app-primary hover:underline">Add Tenant</a>
+            <?php if ($property['type'] === 'rental') { ?>
+                <div class=" mt-4 rounded shadow bg-white p-4">
+                    <div class=" flex justify-between items-center">
+                        <div class=" text-lg font-semibold">Tenant</div>
+                        <a href="./rent_history.php?property_id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white">Rent History</a>
+                    </div>
+                    <?php if ($tenant) { ?>
+                        <div class=" mt-4"><?php echo htmlspecialchars($tenant['first_name']) ?> <?php echo htmlspecialchars($tenant['last_name']) ?></div>
+                        <div class=" text-sm font-semibold"><?php echo htmlspecialchars($tenant['email']) ?></div>
+                        <div class=" mt-2"><span class=" font-semibold">Rent Start:</span> <span class=" capitalize"><?php echo htmlspecialchars(date('d F, Y', strtotime($rent['rent_start']))) ?></span></div>
+                        <div class=" mt-2"><span class=" font-semibold">Rent End:</span> <span class=" capitalize"><?php echo htmlspecialchars(date('d F, Y', strtotime($rent['rent_end']))) ?></span></div>
+                        <div class=" mt-2 flex gap-2 flex-nowrap *:text-nowrap">
+                            <a title="Documents" href="./rent_documents.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"><i class="fa-solid fa-file"></i></a>
+                            <a title="Remark" href="./remarks.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-app-primary text-app-primary hover:bg-app-primary hover:text-white"><i class="fa-solid fa-comment-dots"></i></a>
+                            <a title="Renew" href="./renew_rent.php?rent_id=<?php echo htmlspecialchars($rent['rent_id']) ?>" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-green-500 text-green-500 hover:bg-green-500 hover:text-white"><i class="fa-solid fa-repeat"></i></a>
+                            <form action="./includes/tenant/terminate.php" method="post" onsubmit="return confirm(`Proceed to terminate tenant`)">
+                                <input type="hidden" name="rent_id" value="<?php echo htmlspecialchars($rent['rent_id']) ?>">
+                                <input type="hidden" name="property_id" value="<?php echo htmlspecialchars($rent['property_id']) ?>">
+                                <button title="Terminate" type="submit" class=" text-xs font-semibold py-1 px-3 rounded bg-transparent border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white"><i class="fa-solid fa-calendar-xmark"></i></button>
+                            </form>
                         </div>
+                    <?php } else { ?>
+                        <div class=" mt-4 text-center font-bold text-3xl text-gray-400">No Active Tenant</div>
+                        <?php if ($_SESSION['user']['user_type'] === 'admin' && $property['type'] === 'rental') { ?>
+                            <div class=" mt-4 text-center">
+                                <a href="./add_tenant.php?property_id=<?php echo htmlspecialchars($property['property_id']) ?>" class=" font-semibold text-app-primary hover:underline">Add Tenant</a>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
-                <?php } ?>
-            </div>
+                </div>
+            <?php } ?>
             <!--  -->
             <?php if ($_SESSION['user']['user_type'] === 'admin') { ?>
                 <div class=" mt-4 rounded shadow bg-white p-4 flex flex-wrap gap-4">

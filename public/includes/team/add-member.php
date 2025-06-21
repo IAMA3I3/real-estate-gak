@@ -6,6 +6,7 @@ require_once '../session.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
+    $position = $_POST['position'];
     $bio = $_POST['bio'];
 
     // Handle file upload
@@ -55,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['errors'] = $errors;
             $inputData = [
                 'name' => $name,
+                'position' => $position,
                 'bio' => $bio
             ];
             $_SESSION['inputData'] = $inputData;
@@ -62,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit;
         }
 
-        addTeamMember($pdo, $filePath, $name, $bio);
+        addTeamMember($pdo, $filePath, $name, $position, $bio);
         $_SESSION['success'] = 'Team Member Added';
         header('Location: ../../dashboard_team.php');
         $pdo = null;

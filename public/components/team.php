@@ -1,6 +1,6 @@
 <?php
 
-$team = fetchAll($pdo, "team");
+$team = fetchAll($pdo, "team", false);
 ?>
 
 <div class=" py-16">
@@ -25,7 +25,12 @@ $team = fetchAll($pdo, "team");
                                     <div class=" h-[30%] p-2">
                                         <div class=" relative h-full border border-app-primary flex justify-center items-center p-4">
                                             <div class=" text-app-primary font-semibold font-playfair text-center group-hover:-translate-y-8 group-hover:opacity-0 group-hover:invisible transition-all duration-500">
-                                                <?php echo htmlspecialchars($i['name']) ?>
+                                                <div class="">
+                                                    <?php echo htmlspecialchars($i['name']) ?>
+                                                </div>
+                                                <div class=" text-sm text-gray-300">
+                                                    <?php echo htmlspecialchars($i['position']) ?>
+                                                </div>
                                             </div>
                                             <!--  -->
                                             <a href="./team-bio.php?id=<?php echo $i['id'] ?>" class=" absolute text-white font-semibold hover:text-app-primary uppercase translate-y-8 opacity-0 invisible group-hover:translate-y-0 group-hover:opacity-100 group-hover:visible transition-all duration-500">View Bio <i class="fa-solid fa-arrow-right"></i></a>

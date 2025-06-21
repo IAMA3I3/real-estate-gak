@@ -35,12 +35,13 @@ function updateTeamMember($pdo, $id, $img, $name, $bio)
 }
 
 // add team member
-function addTeamMember($pdo, $img, $name, $bio)
+function addTeamMember($pdo, $img, $name, $position, $bio)
 {
-    $query = 'INSERT INTO team (img, name, bio) VALUES (:img, :name, :bio);';
+    $query = 'INSERT INTO team (img, name, position, bio) VALUES (:img, :name, :position, :bio);';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":img", $img);
     $stmt->bindParam(":name", $name);
+    $stmt->bindParam(":position", $position);
     $stmt->bindParam(":bio", $bio);
     $stmt->execute();
 }
@@ -555,9 +556,10 @@ function fetchAllWithPagination($pdo, $db_table, $limit, $page)
 }
 
 // fetch all items
-function fetchAll($pdo, $db_table)
+function fetchAll($pdo, $db_table, $desc = true)
 {
-    $query = "SELECT * FROM $db_table ORDER BY created_at DESC;";
+    $order = $desc ? 'DESC' : 'ASC';
+    $query = "SELECT * FROM $db_table ORDER BY created_at $order;";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);

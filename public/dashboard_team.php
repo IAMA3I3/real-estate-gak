@@ -3,7 +3,7 @@
 include './components/header.php';
 userAccess(['admin']);
 
-$team = fetchAll($pdo, "team");
+$team = fetchAll($pdo, "team", false);
 
 $sn = 1
 ?>
@@ -39,6 +39,9 @@ $sn = 1
                             <div class=" px-2 py-4">
                                 <div class=" font-semibold font-playfair truncate">
                                     <?php echo htmlspecialchars($i['name']) ?>
+                                </div>
+                                <div class=" font-semibold truncate text-xs text-gray-500">
+                                    <?php echo htmlspecialchars($i['position']) ?>
                                 </div>
                                 <div class=" mt-2 line-clamp-2">
                                     <?php echo nl2br(htmlspecialchars($i['bio'])) ?>

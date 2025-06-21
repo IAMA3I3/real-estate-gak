@@ -42,6 +42,7 @@ ob_end_flush();
                 <div class="">
                     <div class=" text-lg font-semibold font-playfair text-app-primary">About Our Attorney</div>
                     <div class=" mt-1 text-2xl font-bold font-playfair"><?php echo htmlspecialchars($member['name']) ?></div>
+                    <div class=" text-lg font-bold text-gray-500"><?php echo htmlspecialchars($member['position']) ?></div>
                     <div class=" mt-4"><?php echo nl2br(htmlspecialchars($member['bio'])) ?></div>
                 </div>
             </div>

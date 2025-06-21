@@ -53,6 +53,14 @@ ob_end_flush();
                     </div>
                     <!--  -->
                     <div class=" my-2 flex flex-col gap-1 items-start">
+                        <label for="position" class=" text-sm font-semibold text-gray-500">Position</label>
+                        <input type="text" name="position" id="position" value="<?php echo (isset($_SESSION['inputData']['position']) && !isset($_SESSION['errors']['position'])) ? htmlspecialchars($_SESSION['inputData']['position']) : htmlspecialchars($member['position']); ?>" class=" w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20">
+                        <?php if (isset($_SESSION['errors']['position'])) { ?>
+                            <div class=" text-sm font-semibold text-red-500"><?php echo $_SESSION['errors']['position'] ?></div>
+                        <?php } ?>
+                    </div>
+                    <!--  -->
+                    <div class=" my-2 flex flex-col gap-1 items-start">
                         <label for="descriptbioion" class=" text-sm font-semibold text-gray-500">Bio</label>
                         <textarea name="bio" id="bio" class=" w-full py-2 px-6 rounded bg-app-secondary/15 outline-none focus:bg-app-secondary/20 resize-y min-h-[150px]"><?php echo (isset($_SESSION['inputData']['bio']) && !isset($_SESSION['error']['bio'])) ? htmlspecialchars($_SESSION['inputData']['bio']) : htmlspecialchars($member['bio']) ?></textarea>
                         <?php if (isset($_SESSION['errors']['bio'])) { ?>

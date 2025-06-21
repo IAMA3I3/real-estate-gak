@@ -23,13 +23,14 @@ function addRemark($pdo, $remark_id, $rent_id, $comment)
 }
 
 // update team member
-function updateTeamMember($pdo, $id, $img, $name, $bio)
+function updateTeamMember($pdo, $id, $img, $name, $position, $bio)
 {
-    $query = 'UPDATE team SET img = :img, name = :name, bio = :bio WHERE id = :id;';
+    $query = 'UPDATE team SET img = :img, name = :name, position = :position, bio = :bio WHERE id = :id;';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":id", $id);
     $stmt->bindParam(":img", $img);
     $stmt->bindParam(":name", $name);
+    $stmt->bindParam(":position", $position);
     $stmt->bindParam(":bio", $bio);
     $stmt->execute();
 }

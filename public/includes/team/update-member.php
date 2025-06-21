@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
     $img = $_POST['img'];
     $name = $_POST['name'];
+    $position = $_POST['position'];
     $bio = $_POST['bio'];
 
     // Handle file upload
@@ -62,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['errors'] = $errors;
             $inputData = [
                 'name' => $name,
+                'position' => $position,
                 'bio' => $bio
             ];
             $_SESSION['inputData'] = $inputData;
@@ -70,9 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         if ($img != '' && !isset($_FILES['file'])) {
-            updateTeamMember($pdo, $id, $img, $name, $bio);
+            updateTeamMember($pdo, $id, $img, $name, $position, $bio);
         } else {
-            updateTeamMember($pdo, $id, $filePath, $name, $bio);
+            updateTeamMember($pdo, $id, $filePath, $name, $position, $bio);
         }
         $_SESSION['success'] = 'Team Member Updated';
         header('Location: ../../dashboard_team_detail.php?id=' . $id);
